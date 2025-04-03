@@ -14,7 +14,7 @@ class ServiceProfessional(models.Model):
     name = models.CharField(max_length=200)
     class_period = models.CharField(max_length=200)
 
-    service = models.ManyToManyField(Service)
+    services = models.ManyToManyField(Service)
     def __str__(self):
         return self.name
 
@@ -25,8 +25,7 @@ class Event(models.Model):
     event_location = models.CharField(max_length=200)
     end_time = models.DateTimeField()
 
-    #each event belongs to a service, a service may have many events under it
-    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    #removed service relationship
     def __str__(self):
         return self.name
 
@@ -36,6 +35,7 @@ class Reservation(models.Model):
 
     #each reservation belongs to an event, an event can have many reservations
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    professional = models.ForeignKey(ServiceProfessional, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
