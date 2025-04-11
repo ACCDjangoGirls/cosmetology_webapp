@@ -1,9 +1,11 @@
 from django.shortcuts import render
+from django.views import View
+
 
 # Create your views here.
 
 class Home(View):
     def get(self, request):
-        x = {}
-        return render(request, 'home.html',x)
+        return render(request, 'cosmetology/home.html', {"message": "Welcome to our Cosmetology site!"})
+
 
