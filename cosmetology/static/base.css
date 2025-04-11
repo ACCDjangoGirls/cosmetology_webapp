@@ -1,10 +1,20 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Limelight&family=Noto+Sans+Mono:wght@100..900&family=Special+Gothic+Condensed+One&display=swap');
+
+body, html {
      margin: 4vw;
+     font-family: "Special Gothic Condensed One", sans-serif;
+     height: 100%;
+     color: #D0312D;
+
  }
  main {
      padding: 4vw;
-     border: 1px dotted #777;
+     background-color: white;
+     display: grid;
+     grid-template-columns: 48vw 48vw;
+     grid-template-rows: auto;
  }
+
  h1, footer {
      text-align: center;
  }
@@ -16,8 +26,19 @@ body {
      font-weight: bold;
      color: #C92; 
  }
- main {
-   display: grid;
-   grid-template-columns: 48vw 48vw;
-   grid-template-rows: auto;
- }
+
+ .button {
+    font-family: "Noto Sans Mono", monospace;
+    object-position: center;
+    position: absolute;
+    text-align: center;
+    font-size: 1.3vw;
+    font-weight: 400;
+    padding-top: 0.7vw;
+    background-color:#C32F27;
+    color: #fff;
+    border:none; 
+    border-radius:0.8vw; 
+    min-height:3vw; 
+    min-width: 10vw;
+  }
