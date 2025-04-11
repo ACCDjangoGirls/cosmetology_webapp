@@ -17,10 +17,7 @@ urlpatterns = [
     path("service_delete/<pk>", views.ServiceDelete.as_view(), name="service_delete"),
     path("service_edit/<pk>", views.ServiceEdit.as_view(), name="service_edit"),
 
-    #admin only
-    path("event_service_add", views.EventServiceAdd.as_view(), name="event_service_add"), #plus icon next to calendar
-    path("event_service_update/<pk>", views.EventServiceUpdate.as_view(), name="event_service_update"), #edit icon on each calendar tile
-    path("event_service_delete/<pk>", views.EventServiceDelete.as_view(), name="event_service_delete"), #same but delete
+    #services are assigned to events in the event CRUD
 
     path("contact", views.Contact.as_view(), name="contact"),
 
@@ -29,16 +26,13 @@ urlpatterns = [
     path("user_appointment_cancel/<pk>", views.UserAppointmentCancel.as_view(), name="user_appointment_cancel"), 
     path("user_appointment_add", views.UserAppointmentAdd.as_view(), name="user_appointment_add"), 
     path("user_appointment_update/<pk>", views.UserAppointmentUpdate.as_view(), name="user_appointment_update"),
+    #admins will access the above cruds using if statements ^
 
     #admin and user can see this, seen after creating an appt or after clicking on one from the 
     #user_appointments url or admin_appointments url
     path("appointment_detail/<pk>", views.AppointmentDetail.as_view(), name="appointment_detail"), 
     
-
     path("admin_appointments", views.AdminAppointments.as_view(), name="admin_appointments"), #list ALL apts.
-    path("admin_appointment_add", views.AdminAppointmentAdd.as_view(), name="admin_appointment_add"),
-    path("admin_appointment_update/<pk>", views.AdminAppointmentUpdate.as_view(), name="admin_appointment_update"),
-    path("admin_appointment_delete/<pk>", views.AdminAppointmentDelete.as_view(), name="admin_appointment_delete"),
 
     #admin only
     path("service_providers", views.ServiceProviders.as_view(), name="service_providers"), 
