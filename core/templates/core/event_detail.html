@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{%block content%}
+ <h1>{{event.name}}</h1>
+ <p>{{event.description}}</p>
+ <p>Time: {{event.start_time_and_date}}</p>
+ <p>End time: {{event.end_time}}</p>
+ <p>Event at: {{event.event_location}}</p>
+ <p> Our available services are: 
+    {% if event.services.all %}
+      <ul>
+        {% for service in event.services.all %}
+            <li>{{ service.name }}</li> {%comment%} have this link to the service detail later on {%endcomment%}
+        {% endfor %}
+      </ul>
+    {% else %}
+        No services available for this event.
+    {% endif %}
+ </p>
+
+
+
+
+{% endblock %}
