@@ -4,7 +4,7 @@ from . import views
 
 app_name = "Cosmetology"
 urlpatterns = [
-    #path("", views.Home.as_view(), name="index"), #it is going to list events in the calendar
+    path("", views.Home.as_view(), name="index"), #it is going to list events in the calendar
     path("event_detail/<pk>", views.EventDetail.as_view(), name="event_detail"), #upon clicking event from calendar
 
     #admin only
