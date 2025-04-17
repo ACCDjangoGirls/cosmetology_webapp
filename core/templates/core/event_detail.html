@@ -1,12 +1,21 @@
 {% extends 'base.html' %}
 
 {%block content%}
+<div>
+  {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+  {% else %}
+      <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+  {% endif %}
+</div>
+
+
  <h1>{{event.name}}</h1>
  <p>{{event.description}}</p>
  <p>Time: {{event.start_time_and_date}}</p>
  <p>End time: {{event.end_time}}</p>
  <p>Event at: {{event.event_location}}</p>
- <p> Our available services are: 
+ <p> Our available services are (have these link to the service detail later on): 
     {% if event.services.all %}
       <ul>
         {% for service in event.services.all %}
@@ -17,6 +26,12 @@
         No services available for this event.
     {% endif %}
  </p>
+
+  {% if user.is_superuser %}
+  <p><a href="{% url 'Cosmetology:event_edit' event.id %}">Edit this event</a></p>
+  <p><a href="{% url 'Cosmetology:event_delete' event.id %}">Delete this event</a></p>
+  <a href="{% url 'Cosmetology:event_add' %}">Create new event</a>
+  {% endif %}
 
 
 
