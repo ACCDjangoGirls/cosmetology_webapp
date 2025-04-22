@@ -1,0 +1,17 @@
+{% extends "cosmetology/base.html" %}
+{% block title %}Events | ACC Cosmetology{% endblock %}
+
+{% block content %}
+<h2>Upcoming Events</h2>
+<ul>
+  {% for event in events %}
+    <li>
+      <strong>{{ event.title }}</strong><br>
+      {{ event.date }} at {{ event.time }} — {{ event.location }}<br>
+      {{ event.description }}<br>
+      <a href="{% url 'reserve_event' event.id %}">Reserve Spot</a>
+    </li>
+    <hr>
+  {% endfor %}
+</ul>
+{% endblock %}

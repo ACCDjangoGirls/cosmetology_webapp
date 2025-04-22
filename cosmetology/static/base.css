@@ -75,3 +75,20 @@ section {
     display: inline-block;
     margin-top: 1vw;
  }
+
+ table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2vw;
+  }
+  
+  th, td {
+    border: 1px solid #D0312D;
+    padding: 1vw;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #D0312D;
+    color: #fff;
+  }

@@ -1,0 +1,31 @@
+{% extends "cosmetology/base.html" %}
+{% block title %}Schedule | ACC Cosmetology{% endblock %}
+
+{% block content %}
+<h2>Upcoming Appointments</h2>
+
+{% if bookings %}
+  <table>
+    <thead>
+      <tr>
+        <th>Client</th>
+        <th>Service</th>
+        <th>Date</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for booking in bookings %}
+        <tr>
+          <td>{{ booking.user.username }}</td>
+          <td>{{ booking.service.name }}</td>
+          <td>{{ booking.date }}</td>
+          <td>{{ booking.time }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No appointments scheduled.</p>
+{% endif %}
+{% endblock %}
