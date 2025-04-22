@@ -4,6 +4,14 @@
 {% block content %}
 <h2>Upcoming Appointments</h2>
 
+<h2>
+    {% if request.user.is_staff %}
+      Full Appointment Schedule
+    {% else %}
+      My Appointments
+    {% endif %}
+  </h2>
+
 {% if bookings %}
   <table>
     <thead>
