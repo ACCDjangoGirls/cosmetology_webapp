@@ -1,44 +1,77 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Limelight&family=Noto+Sans+Mono:wght@100..900&family=Special+Gothic+Condensed+One&display=swap');
 
 body, html {
-     margin: 4vw;
-     font-family: "Special Gothic Condensed One", sans-serif;
-     height: 100%;
-     color: #D0312D;
+    margin: 0;
+    padding: 0;
+    font-family: "Special Gothic Condensed One", sans-serif;
+    color: #D0312D;
+    background-color: #fff;
 
  }
  main {
-     padding: 4vw;
-     background-color: white;
-     display: grid;
-     grid-template-columns: 48vw 48vw;
-     grid-template-rows: auto;
+    padding: 4vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4vw;
  }
 
- h1, footer {
-     text-align: center;
- }
- footer {
-     margin-top: 1vw;
- }
+ h1, h2, h3 {
+    text-align: center;
+    margin-bottom: 1vw;
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 600;
+}
+
+section {
+    background-color: #fff;
+    padding: 2vw;
+    border: 2px solid #D0312D;
+    border-radius: 1vw;
+    box-shadow: 0 0 10px rgba(208, 49, 45, 0.1);
+}
+
+.service-title {
+    font-size: 2vw;
+    font-weight: bold;
+    letter-spacing: 0.2vw;
+}
+
+.service-description {
+    font-size: 1.1vw;
+    line-height: 1.7;
+    margin-top: 1vw;
+}
+
+.price {
+    font-size: 1.5vw;
+    font-weight: bold;
+    color: #C92;
+    margin-top: 1vw;
+}
+
  a, a:visited {
-     text-decoration: none;
-     font-weight: bold;
-     color: #C92; 
+    text-decoration: none;
+    color: #C92;
+    font-weight: bold; 
  }
+
+ footer {
+    text-align: center;
+    padding: 2vw;
+    font-size: 1vw;
+    margin-top: 4vw;
+}
 
  .button {
     font-family: "Noto Sans Mono", monospace;
-    object-position: center;
-    position: absolute;
-    text-align: center;
     font-size: 1.3vw;
     font-weight: 400;
-    padding-top: 0.7vw;
-    background-color:#C32F27;
+    padding: 0.7vw 2vw;
+    background-color: #C32F27;
     color: #fff;
-    border:none; 
-    border-radius:0.8vw; 
-    min-height:3vw; 
-    min-width: 10vw;
-  }
+    border: none;
+    border-radius: 0.8vw;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 1vw;
+ }
