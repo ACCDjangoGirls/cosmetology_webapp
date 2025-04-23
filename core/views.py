@@ -95,8 +95,10 @@ class UserAppointmentEdit(LoginRequiredMixin, generic.UpdateView):
     template_name = "core/appointment_edit.html"
 
     def get_queryset(self):
-        # Only allow editing if the reservation belongs to the logged-in user
-        return Reservation.objects.filter(user=self.request.user)
+        qs = super().get_queryset()
+        if self.request.user.is_superuser:
+            return qs
+        return qs.filter(user=self.request.user)
     
     def form_valid(self, form): #using form_valid to automatically assign a pro, kinda like how we did with owner.py
         selected_services = form.cleaned_data['services'] #this is how u get the clean data in a form valid function 
@@ -119,5 +121,36 @@ class UserAppointmentEdit(LoginRequiredMixin, generic.UpdateView):
         return super().form_valid(form)
     
     def get_success_url(self): #success url doesn't work when you want to pass the primary key
-        return reverse_lazy('Cosmetology:user_appointments')
+        if self.request.user.is_superuser:
+            return reverse_lazy('Cosmetology:admin_user_appointments')
+        else:
+            return reverse_lazy('Cosmetology:user_appointments')
     
+
+class UserAppointmentCancel(LoginRequiredMixin, generic.DeleteView):
+    model = Reservation
+    template_name = "core/appointment_cancel.html"
+    def get_success_url(self): #can't use success_url because I want to have an if statement that uses self.request
+        if self.request.user.is_superuser:
+            return reverse_lazy('Cosmetology:admin_user_appointments')
+        else:
+            return reverse_lazy('Cosmetology:user_appointments')
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if self.request.user.is_superuser:
+            return qs
+        return qs.filter(user=self.request.user)
+
+    
+class AdminUserAppointments(LoginRequiredMixin, generic.ListView):
+    model = Reservation
+    template_name = "core/admin_user_appointments.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return Reservation.objects.all()

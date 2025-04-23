@@ -26,7 +26,8 @@
               <li>No services selected</li>
             {% endfor %}
           </ul>
-          <a href="{% url 'Cosmetology:user_appointment_update' i.pk %}">Edit this appointment</a>
+          <a href="{% url 'Cosmetology:user_appointment_update' i.pk %}">Edit this appointment</a><br>
+          <a href="{% url 'Cosmetology:user_appointment_cancel' i.pk %}">Cancel</a><br>
         </li>
       {% endfor %}
     </ul>
