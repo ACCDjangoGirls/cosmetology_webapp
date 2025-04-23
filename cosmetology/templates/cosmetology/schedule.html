@@ -2,22 +2,21 @@
 {% block title %}Schedule | ACC Cosmetology{% endblock %}
 
 {% block content %}
-<h2>Upcoming Appointments</h2>
-
 <h2>
-    {% if request.user.is_staff %}
-      Full Appointment Schedule
-    {% else %}
-      My Appointments
-    {% endif %}
-  </h2>
+  {% if request.user.is_staff %}
+    Full Appointment Schedule
+  {% else %}
+    My Appointments
+  {% endif %}
+</h2>
 
 {% if bookings %}
   <table>
     <thead>
       <tr>
         <th>Client</th>
-        <th>Service</th>
+        <th>Professional</th>
+        <th>Event</th>
         <th>Date</th>
         <th>Time</th>
       </tr>
@@ -26,9 +25,10 @@
       {% for booking in bookings %}
         <tr>
           <td>{{ booking.user.username }}</td>
-          <td>{{ booking.service.name }}</td>
-          <td>{{ booking.date }}</td>
-          <td>{{ booking.time }}</td>
+          <td>{{ booking.professional.name }}</td>
+          <td>{{ booking.event.name }}</td>
+          <td>{{ booking.event.start_time_and_date|date:"F j, Y" }}</td>
+          <td>{{ booking.event.start_time_and_date|time:"g:i A" }}</td>
         </tr>
       {% endfor %}
     </tbody>
