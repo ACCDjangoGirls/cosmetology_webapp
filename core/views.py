@@ -4,7 +4,7 @@ from django.views import generic, View
 from .models import Service, ServiceProfessional, Event, Reservation
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from .forms import EventForm
+from .forms import EventForm, AppointmentForm
 
 # Create your views here.
 
@@ -49,3 +49,41 @@ class EventEdit(LoginRequiredMixin, generic.UpdateView):
     
     def get_success_url(self): #success url doesn't work when you want to pass the primary key
         return reverse_lazy('Cosmetology:event_detail', kwargs={'pk': self.object.pk})
+    
+class UserAppointments(LoginRequiredMixin, generic.ListView):
+    model = Reservation
+    template_name = "core/user_reservations.html"
+
+    def get_queryset(self):
+        return Reservation.objects.filter(user=self.request.user)
+    
+class UserAppointmentAdd(LoginRequiredMixin, generic.CreateView):
+    model = Reservation
+    form_class = AppointmentForm
+    template_name = "core/appointment_create.html"
+    success_url = reverse_lazy('Cosmetology:user_appointments')
+
+    def form_valid(self, form): #using form_valid to automatically assign a pro, kinda like how we did with owner.py
+        user = self.request.user #get the user
+        form.instance.user = user #assign to the form, like owner.py
+        form.instance.username = user.username #assign username
+
+        selected_services = form.cleaned_data['services'] #this is how u get the clean data in a form valid function 
+
+        all_pros = ServiceProfessional.objects.all() #query all proffessionals 
+
+        for professional in all_pros: #get all the proffessionals
+            has_all_services = True #see whether they have that service
+            for service in selected_services: #check each service
+                if service not in professional.services.all(): #and see if it is in the proffessional's list of services
+                    has_all_services = False
+                    break #get out
+
+            if has_all_services == True: #if they do, assign them and stop the loop
+                form.instance.professional = professional
+                break
+        else: #show error if no proffessional has all those services
+            form.add_error(None, "No professional offers all selected services.") #add_error allows you to specify what error to show
+            return self.form_invalid(form)
+
+        return super().form_valid(form)

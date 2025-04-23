@@ -21,10 +21,10 @@ urlpatterns = [
 
     #path("contact", views.Contact.as_view(), name="contact"),
 
-    #path("user_appointments", views.UserAppointments.as_view(), name="user_appointments"), #list their appts.
+    path("user_appointments", views.UserAppointments.as_view(), name="user_appointments"), #list their appts.
     #generic delete, this will be seen upon canceling in the appointments template (linked to in home)
     #path("user_appointment_cancel/<pk>", views.UserAppointmentCancel.as_view(), name="user_appointment_cancel"), 
-    #path("user_appointment_add", views.UserAppointmentAdd.as_view(), name="user_appointment_add"), 
+    path("user_appointment_add", views.UserAppointmentAdd.as_view(), name="user_appointment_add"), 
     #path("user_appointment_update/<pk>", views.UserAppointmentUpdate.as_view(), name="user_appointment_update"),
     #admins will access the above cruds using if statements ^
 
