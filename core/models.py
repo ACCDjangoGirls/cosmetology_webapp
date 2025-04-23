@@ -24,6 +24,7 @@ class Event(models.Model):
     start_time_and_date = models.DateTimeField()
     event_location = models.CharField(max_length=200)
     end_time = models.DateTimeField()
+    services = models.ManyToManyField(Service)
 
     #removed service relationship
     def __str__(self):
@@ -40,6 +41,3 @@ class Reservation(models.Model):
 
     def __str__(self):
        return f"Reservation for {self.event} by {self.user}"
-
-
-
