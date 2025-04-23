@@ -30,6 +30,12 @@ class EventAdd(LoginRequiredMixin, generic.CreateView):
 class EventDelete(LoginRequiredMixin, generic.DeleteView):
     model = Event
     template_name = "core/event_delete.html"
+    
+    def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs) #If the user is a superuser, this line calls the original dispatch() method from the parent class
+
 
 class EventEdit(LoginRequiredMixin, generic.UpdateView):
     model = Event
