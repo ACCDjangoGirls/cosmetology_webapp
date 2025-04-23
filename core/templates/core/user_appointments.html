@@ -18,7 +18,7 @@
           <strong>Start Time:</strong> {{ i.event.start_time_and_date }}<br>
           <strong>Location:</strong> {{ i.event.event_location }}<br>
           <strong>Professional:</strong> {{ i.professional.name }}<br>
-          <strong>Services:</strong> 
+          <strong>Services:</strong><br>
           <ul>
             {% for service in i.services.all %}
               <li>{{ service.name }}</li>
@@ -26,6 +26,7 @@
               <li>No services selected</li>
             {% endfor %}
           </ul>
+          <a href="{% url 'Cosmetology:user_appointment_update' i.pk %}">Edit this appointment</a>
         </li>
       {% endfor %}
     </ul>

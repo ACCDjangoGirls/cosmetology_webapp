@@ -5,6 +5,7 @@ from .models import Service, ServiceProfessional, Event, Reservation
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from .forms import EventForm, AppointmentForm
+import random
 
 # Create your views here.
 
@@ -52,7 +53,7 @@ class EventEdit(LoginRequiredMixin, generic.UpdateView):
     
 class UserAppointments(LoginRequiredMixin, generic.ListView):
     model = Reservation
-    template_name = "core/user_reservations.html"
+    template_name = "core/user_appointments.html"
 
     def get_queryset(self):
         return Reservation.objects.filter(user=self.request.user)
@@ -70,8 +71,8 @@ class UserAppointmentAdd(LoginRequiredMixin, generic.CreateView):
 
         selected_services = form.cleaned_data['services'] #this is how u get the clean data in a form valid function 
 
-        all_pros = ServiceProfessional.objects.all() #query all proffessionals 
-
+        all_pros = list(ServiceProfessional.objects.all()) #query all proffessionals 
+        random.shuffle(all_pros) #gives equal chance for each pro to get selected
         for professional in all_pros: #get all the proffessionals
             has_all_services = True #see whether they have that service
             for service in selected_services: #check each service
@@ -87,3 +88,36 @@ class UserAppointmentAdd(LoginRequiredMixin, generic.CreateView):
             return self.form_invalid(form)
 
         return super().form_valid(form)
+    
+class UserAppointmentEdit(LoginRequiredMixin, generic.UpdateView):
+    model = Reservation
+    form_class = AppointmentForm
+    template_name = "core/appointment_edit.html"
+
+    def get_queryset(self):
+        # Only allow editing if the reservation belongs to the logged-in user
+        return Reservation.objects.filter(user=self.request.user)
+    
+    def form_valid(self, form): #using form_valid to automatically assign a pro, kinda like how we did with owner.py
+        selected_services = form.cleaned_data['services'] #this is how u get the clean data in a form valid function 
+        all_pros = list(ServiceProfessional.objects.all()) #query all proffessionals 
+        random.shuffle(all_pros) #gives equal chance for each pro to get selected
+        for professional in all_pros: #get all the proffessionals
+            has_all_services = True #see whether they have that service
+            for service in selected_services: #check each service
+                if service not in professional.services.all(): #and see if it is in the proffessional's list of services
+                    has_all_services = False
+                    break #get out
+
+            if has_all_services == True: #if they do, assign them and stop the loop
+                form.instance.professional = professional
+                break
+        else: #show error if no proffessional has all those services
+            form.add_error(None, "No professional offers all selected services.") #add_error allows you to specify what error to show
+            return self.form_invalid(form)
+
+        return super().form_valid(form)
+    
+    def get_success_url(self): #success url doesn't work when you want to pass the primary key
+        return reverse_lazy('Cosmetology:user_appointments')
+    
