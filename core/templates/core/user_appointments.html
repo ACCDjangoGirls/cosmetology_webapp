@@ -34,4 +34,7 @@
 {% else %}
     <p>You have no appointments scheduled.</p>
 {% endif %}
+
+<a href="{% url 'Cosmetology:user_appointment_add'%}">Book an appointment</a>
+
 {% endblock %}
