@@ -58,7 +58,7 @@ class UserAppointments(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return Reservation.objects.filter(user=self.request.user)
     
-class SelectEventView(LoginRequiredMixin, View): #cant use generic here since we are not CRUDing, only grabbing an event id and trying to pass it down to the next view
+class SelectEventCreateView(LoginRequiredMixin, View): #cant use generic here since we are not CRUDing, only grabbing an event id and trying to pass it down to the next view
     def get(self, request):
         events = Event.objects.all()
         return render(request, 'core/event_select.html', {'events': events})
@@ -66,6 +66,15 @@ class SelectEventView(LoginRequiredMixin, View): #cant use generic here since we
     def post(self, request):
         event_id = request.POST.get('event') #get that event id
         return redirect('Cosmetology:user_appointment_add', event_id=event_id) #go to the appointment_add view and provide the event to the view for filtering logic
+    
+class SelectEventUpdateView(LoginRequiredMixin, View): #seems inneficient but I don't know how else to do this
+    def get(self, request, pk):
+        events = Event.objects.all()
+        return render(request, 'core/event_select.html', {'events': events})
+
+    def post(self, request, pk):
+        event_id = request.POST.get('event')
+        return redirect('Cosmetology:user_appointment_update', event_id=event_id, pk=pk) 
     
 class UserAppointmentAdd(LoginRequiredMixin, generic.CreateView):
     model = Reservation
@@ -114,6 +123,12 @@ class UserAppointmentEdit(LoginRequiredMixin, generic.UpdateView):
     form_class = AppointmentForm
     template_name = "core/appointment_edit.html"
 
+    #filtering what services show up
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['services'].queryset = Service.objects.filter(event=self.kwargs['event_id'])
+        return form
+
     def get_queryset(self): #usually in owner.py
         qs = super().get_queryset() #the queryset is the set of appointments that a user can get directed to. We are filtering them here.
         if self.request.user.is_superuser:
@@ -121,6 +136,12 @@ class UserAppointmentEdit(LoginRequiredMixin, generic.UpdateView):
         return qs.filter(user=self.request.user) #only make the user's appointments available for the user
     
     def form_valid(self, form): #using form_valid to automatically assign a pro, kinda like how we did with owner.py
+
+        event_id = self.kwargs.get('event_id') #you use self.kwargs.get to grab an id from a url
+        event = get_object_or_404(Event, pk=event_id)
+        form.instance.event = event #make the selection from the last page apply to the appointment
+
+
         selected_services = form.cleaned_data['services'] #this is how u get the clean data in a form valid function 
         all_pros = list(ServiceProfessional.objects.all()) #query all proffessionals 
         random.shuffle(all_pros) #gives equal chance for each pro to get selected
