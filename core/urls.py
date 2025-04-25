@@ -23,7 +23,8 @@ urlpatterns = [
 
     path("user_appointments", views.UserAppointments.as_view(), name="user_appointments"), #list their appts.
     path("user_appointment_cancel/<pk>", views.UserAppointmentCancel.as_view(), name="user_appointment_cancel"), 
-    path("user_appointment_add", views.UserAppointmentAdd.as_view(), name="user_appointment_add"), 
+    path("user_appointment_pick_event", views.SelectEventView.as_view(), name="user_appointment_pick_event"),
+    path("user_appointment_add/<int:event_id>", views.UserAppointmentAdd.as_view(), name="user_appointment_add"),
     path("user_appointment_edit/<pk>", views.UserAppointmentEdit.as_view(), name="user_appointment_update"),
     
     #admin only

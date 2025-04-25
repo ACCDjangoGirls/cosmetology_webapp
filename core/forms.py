@@ -14,7 +14,7 @@ class EventForm(forms.ModelForm):
 class AppointmentForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = ['event', 'services', 'time_and_date']
+        fields = ['services', 'time_and_date']
         #widgets are needed for pretty date picking
         widgets = {
             'time_and_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
