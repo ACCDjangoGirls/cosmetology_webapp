@@ -12,10 +12,10 @@ urlpatterns = [
     path("event_delete/<pk>", views.EventDelete.as_view(), name="event_delete"),
     path("event_edit/<pk>", views.EventEdit.as_view(), name="event_edit"),
 
-    #path("services", views.Services.as_view(), name="services"),
-    #path("service_add/<pk>", views.ServiceAdd.as_view(), name="service_add"),
-    #path("service_delete/<pk>", views.ServiceDelete.as_view(), name="service_delete"),
-    #path("service_edit/<pk>", views.ServiceEdit.as_view(), name="service_edit"),
+    path("services", views.Services.as_view(), name="services"),
+    path("service_add", views.ServiceAdd.as_view(), name="service_add"),
+    path("service_delete/<pk>", views.ServiceDelete.as_view(), name="service_delete"),
+    path("service_edit/<pk>", views.ServiceEdit.as_view(), name="service_edit"),
 
     #services are assigned to events in the event CRUD
 

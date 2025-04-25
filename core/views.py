@@ -130,7 +130,7 @@ class UserAppointmentEdit(LoginRequiredMixin, generic.UpdateView):
         return form
 
     def get_queryset(self): #usually in owner.py
-        qs = super().get_queryset() #the queryset is the set of appointments that a user can get directed to. We are filtering them here.
+        qs = super().get_queryset() #the queryset is the set of appointments that a user can get directed to. We are filtering them in this method.
         if self.request.user.is_superuser:
             return qs #make every appointment available for the admin
         return qs.filter(user=self.request.user) #only make the user's appointments available for the user
@@ -195,3 +195,41 @@ class AdminUserAppointments(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return Reservation.objects.all()
+    
+class Services(generic.ListView): #we will show the details in the list since the model only has 2 fields.
+    model = Service
+    template_name = "core/services.html"
+
+class ServiceAdd(LoginRequiredMixin, generic.CreateView):
+    model = Service
+    template_name = "core/service_add.html"
+    success_url = reverse_lazy('Cosmetology:services')  
+
+    def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs) #If the user is a superuser, this line calls the original dispatch() method from the parent class
+
+class ServiceDelete(LoginRequiredMixin, generic.DeleteView):
+    model = Service
+    template_name = "core/service_delete.html"
+    success_url = reverse_lazy('Cosmetology:services')
+    
+    def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs) #If the user is a superuser, this line calls the original dispatch() method from the parent class
+
+
+class ServiceEdit(LoginRequiredMixin, generic.UpdateView):
+    model = Service
+    fields = '__all__'
+    template_name = "core/service_edit.html"
+
+    def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs) #If the user is a superuser, this line calls the original dispatch() method from the parent class
+    
+    def get_success_url(self): #success url doesn't work when you want to pass the primary key
+        return reverse_lazy('Cosmetology:services')
