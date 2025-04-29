@@ -18,7 +18,7 @@
           <strong>Period:</strong> {{ i.class_period}}<br>
           <strong>Services:</strong> 
           {% for j in i.services.all %}
-          {{ i.name }}{% if not forloop.last %}, {% endif %} {%comment%}we can use forloop.last to not add a comma in the end{%endcomment%}
+          {{ j.name }}{% if not forloop.last %}, {% endif %} {%comment%}we can use forloop.last to not add a comma in the end{%endcomment%}
           {% endfor %} <br>
           {% if user.is_superuser %}
           <a href="{% url 'Cosmetology:service_provider_edit' i.pk%}">Edit proffessional</a><br>
@@ -32,7 +32,7 @@
 {% endif %}
 
 {% if user.is_superuser %}
-<a href="{% url 'Cosmetology:service_provider_add'%}">Create a service</a>
+<a href="{% url 'Cosmetology:service_provider_add'%}">Create a service provider</a>
 {%endif%}
 
 {% endblock %}
