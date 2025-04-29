@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+
+{%block content%}
+<h1>Select Event</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    <label for="event">Event:</label>
+    <select name="event" id="event">
+        {% for event in events %}
+            <option value="{{ event.id }}">{{ event.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">You're so close!</button>
+</form>
+
+{% endblock %} 

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+    {% endif %}
+</div>
+
+<h2>Your Appointments</h2>
+{% if reservation_list %}
+    <ul>
+      {% for i in reservation_list %}
+        <li>
+          <strong>Event:</strong> {{ i.event.name }}<br>
+          <strong>Start Time:</strong> {{ i.event.start_time_and_date }}<br>
+          <strong>Location:</strong> {{ i.event.event_location }}<br>
+          <strong>Professional:</strong> {{ i.professional.name }}<br>
+          <strong>Services:</strong><br>
+          <ul>
+            {% for service in i.services.all %}
+              <li>{{ service.name }}</li>
+            {% empty %}
+              <li>No services selected</li>
+            {% endfor %}
+          </ul>
+          <a href="{% url 'Cosmetology:user_appointment_pick_event_update' i.pk%}">Edit this appointment</a><br>
+          <a href="{% url 'Cosmetology:user_appointment_cancel' i.pk %}">Cancel</a><br>
+        </li>
+      {% endfor %}
+    </ul>
+{% else %}
+    <p>You have no appointments scheduled.</p>
+{% endif %}
+
+<a href="{% url 'Cosmetology:user_appointment_pick_event_create'%}">Book an appointment</a>
+
+{% endblock %}
