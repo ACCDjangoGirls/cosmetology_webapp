@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+    {% else %}
+        <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+    {% endif %}
+</div>
+
+<h2>Our Service Providers:</h2>
+{% if serviceprofessional_list %}
+    <ul>
+      {% for i in serviceprofessional_list %}
+        <li>
+          <strong>Name:</strong> {{ i.name }}<br>
+          <strong>Period:</strong> {{ i.class_period}}<br>
+          <strong>Services:</strong> 
+          {% for j in i.services.all %}
+          {{ i.name }}{% if not forloop.last %}, {% endif %} {%comment%}we can use forloop.last to not add a comma in the end{%endcomment%}
+          {% endfor %} <br>
+          {% if user.is_superuser %}
+          <a href="{% url 'Cosmetology:service_provider_edit' i.pk%}">Edit proffessional</a><br>
+          <a href="{% url 'Cosmetology:service_provider_delete' i.pk %}">Delete proffessional</a><br>
+          {%endif%}
+        </li>
+      {% endfor %}
+    </ul>
+{% else %}
+    <p>We currently have no providers. Please check in later.</p>
+{% endif %}
+
+{% if user.is_superuser %}
+<a href="{% url 'Cosmetology:service_provider_add'%}">Create a service</a>
+{%endif%}
+
+{% endblock %}

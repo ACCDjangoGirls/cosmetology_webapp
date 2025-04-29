@@ -233,3 +233,42 @@ class ServiceEdit(LoginRequiredMixin, generic.UpdateView):
     
     def get_success_url(self): #success url doesn't work when you want to pass the primary key
         return reverse_lazy('Cosmetology:services')
+
+class ServiceProviders(generic.ListView):
+    model = ServiceProfessional
+    template_name = "core/service_providers.html"
+
+class ServiceProviderAdd(LoginRequiredMixin, generic.CreateView):
+    model = ServiceProfessional
+    template_name = "core/service_provider_add.html"
+    success_url = reverse_lazy('Cosmetology:service_providers')  
+    fields = '__all__'
+
+    def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs) #If the user is a superuser, this line calls the original dispatch() method from the parent class
+
+class ServiceProviderDelete(LoginRequiredMixin, generic.DeleteView):
+    model = ServiceProfessional
+    template_name = "core/service_provider_delete.html"
+    success_url = reverse_lazy('Cosmetology:service_providers')  
+    
+    def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs) #If the user is a superuser, this line calls the original dispatch() method from the parent class
+
+
+class ServiceProviderUpdate(LoginRequiredMixin, generic.UpdateView):
+    model = ServiceProfessional
+    template_name = "core/service_provider_edit.html"
+    fields = '__all__'
+
+    def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs) #If the user is a superuser, this line calls the original dispatch() method from the parent class
+    
+    def get_success_url(self):
+        return reverse_lazy('Cosmetology:service_providers')

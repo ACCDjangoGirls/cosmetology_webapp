@@ -32,10 +32,10 @@ urlpatterns = [
     path("admin_user_appointments", views.AdminUserAppointments.as_view(), name="admin_user_appointments"), #list ALL apts.
 
     #admin only
-    #path("service_providers", views.ServiceProviders.as_view(), name="service_providers"), 
-    #path("service_provider_add", views.ServiceProviderAdd.as_view(), name="service_provider_add"), 
-    #path("service_provider_update/<pk>", views.ServiceProviderUpdate.as_view(), name="service_provider_update"),
-    #path("service_provider_delete/<pk>", views.ServiceProviderDelete.as_view(), name="service_provider_delete"),
+    path("service_providers", views.ServiceProviders.as_view(), name="service_providers"), 
+    path("service_provider_add", views.ServiceProviderAdd.as_view(), name="service_provider_add"), 
+    path("service_provider_update/<pk>", views.ServiceProviderUpdate.as_view(), name="service_provider_edit"),
+    path("service_provider_delete/<pk>", views.ServiceProviderDelete.as_view(), name="service_provider_delete"),
 
     
 ]
