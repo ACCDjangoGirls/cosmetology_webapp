@@ -49,3 +49,47 @@ class EventEdit(LoginRequiredMixin, generic.UpdateView):
     
     def get_success_url(self): #success url doesn't work when you want to pass the primary key
         return reverse_lazy('Cosmetology:event_detail', kwargs={'pk': self.object.pk})
+    
+class ProviderIndex(generic.ListView):
+    model = ServiceProfessional 
+    template_name = "core/provider_index.html"
+    context_object_name = "professionals"
+
+class ProviderDetail(generic.DetailView):
+    model = ServiceProfessional
+    template_name = "core/provider_detail.html"
+
+class ProviderAdd(LoginRequiredMixin, generic.CreateView):
+    model = ServiceProfessional
+    template_name = "core/provider_add.html"
+    fields = ['name', 'class_period', 'services']
+    success_url = reverse_lazy('Cosmetology:provider_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+    
+class ProviderEdit(LoginRequiredMixin, generic.UpdateView):
+    model = ServiceProfessional
+    template_name = "core/provider_edit.html"
+    fields = ['name', 'class_period', 'services']
+    sucess_url = reverse_lazy('Cosmetology:provider_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_success_url(self):
+        return reverse_lazy('Cosmetology:provider_detail', kwargs={'pk': self.object.pk})
+    
+class ProviderDelete(LoginRequiredMixin, generic.DeleteView):
+    model = ServiceProfessional
+    template_name = "core/provider_delete.html"
+    success_url = reverse_lazy('Cosmetology:provider_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)

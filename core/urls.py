@@ -11,6 +11,11 @@ urlpatterns = [
     path("event_add", views.EventAdd.as_view(), name="event_add"), 
     path("event_delete/<pk>", views.EventDelete.as_view(), name="event_delete"),
     path("event_edit/<pk>", views.EventEdit.as_view(), name="event_edit"),
+    path('providers/', views.ProviderIndex.as_view(), name='provider_index'),
+    path('providers/<int:pk>/', views.ProviderDetail.as_view, name='provider_detail'),
+    path('providers/', views.ProviderAdd.as_view(), name='provider_add'),
+    path('providers/<int:pk>/edit/', views.ProviderEdit.as_view(), name='provider_edit'),
+    path('providers/<int:pk>/delete/', views.ProviderDelete.as_view(), name='provider_delete'),
 
     #path("services", views.Services.as_view(), name="services"),
     #path("service_add/<pk>", views.ServiceAdd.as_view(), name="service_add"),

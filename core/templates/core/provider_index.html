@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1>Providers</h1>
+    <ul>
+        {% for provider in providers %}
+        <li>
+            <a href="{% url 'Cosmetology:provider_detail' provider.pk %}">{{provider_name}}</a>
+            (Class Period: {{ provider.class_period }})
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'Cosmetology:provider_add' %}">Add New Provider</a>
+
+{% endblock %}

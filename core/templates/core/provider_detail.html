@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h1>Provider: {{ object.name }}</h1>
+    <p>Class Period: {{ object.class_period }}</p>
+    <p>Services
+        <ul>
+            {% for service in object.services.all %}
+            <li>{{ service.name }}: {{ service.service_description }}</li>
+        {% endfor %}
+        </ul>
+    </p>
+    <a href="{% url 'Cosmetology:provider_edit' object.pk %}">Edit Provider</a> |
+    <a href="{% url 'Cosmetology:provider_delete' object.pk %}">Delete Provider</a> |
+    <a href="{% url 'Cosmetology:provider_list' %}">Back to Providers</a>
+
+{% endblock %}
