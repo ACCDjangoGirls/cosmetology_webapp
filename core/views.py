@@ -4,7 +4,7 @@ from django.views import generic, View
 from .models import Service, ServiceProfessional, Event, Reservation
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from .forms import EventForm, AppointmentForm
+from .forms import EventForm, UserAppointmentForm, AdminAppointmentForm
 from datetime import date
 import random
 
@@ -79,7 +79,7 @@ class SelectEventUpdateView(LoginRequiredMixin, View): #seems inneficient but I 
     
 class UserAppointmentAdd(LoginRequiredMixin, generic.CreateView):
     model = Reservation
-    form_class = AppointmentForm
+    form_class = UserAppointmentForm
     template_name = "core/appointment_create.html"
     success_url = reverse_lazy('Cosmetology:user_appointments')
 
@@ -128,8 +128,12 @@ class UserAppointmentAdd(LoginRequiredMixin, generic.CreateView):
     
 class UserAppointmentEdit(LoginRequiredMixin, generic.UpdateView):
     model = Reservation
-    form_class = AppointmentForm
+    #form_class = AppointmentForm
     template_name = "core/appointment_edit.html"
+    def get_form_class(self):
+        if self.request.user.is_superuser:
+            return AdminAppointmentForm
+        return UserAppointmentForm
 
     #filtering what services show up
     def get_form(self, form_class=None):
@@ -207,7 +211,7 @@ class AdminUserAppointments(LoginRequiredMixin, generic.ListView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return Reservation.objects.all()
+        return Reservation.objects.all().order_by('time_and_date')
     
 class Services(generic.ListView): #we will show the details in the list since the model only has 2 fields.
     model = Service
