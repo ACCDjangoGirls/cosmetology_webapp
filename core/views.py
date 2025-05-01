@@ -5,6 +5,7 @@ from .models import Service, ServiceProfessional, Event, Reservation
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from .forms import EventForm, AppointmentForm
+from datetime import date
 import random
 
 # Create your views here.
@@ -98,7 +99,8 @@ class UserAppointmentAdd(LoginRequiredMixin, generic.CreateView):
         event = get_object_or_404(Event, pk=event_id)
         form.instance.event = event #make the selection from the last page apply to the appointment
 
-        selected_services = form.cleaned_data['services'] #this is how u get the clean data in a form valid function 
+
+        selected_services = form.cleaned_data['services'] #this is how u get the clean data in a form valid function
 
         all_pros = list(ServiceProfessional.objects.all()) #query all proffessionals 
         random.shuffle(all_pros) #gives equal chance for each pro to get selected
@@ -115,6 +117,12 @@ class UserAppointmentAdd(LoginRequiredMixin, generic.CreateView):
         else: #show error if no proffessional has all those services
             form.add_error(None, "No professional offers all selected services.") #add_error allows you to specify what error to show
             return self.form_invalid(form)
+
+        selected_time = form.cleaned_data['time_and_date'] #get the date the user picked
+        if Event.objects.filter(pk = event.pk, start_time_and_date__lte = selected_time, end_time__gte=selected_time).exists()==False: #https://www.w3schools.com/django/ref_lookups_lte.php
+            form.add_error(None, "Appointment time must be within event start and end time.")
+            return self.form_invalid(form)
+
 
         return super().form_valid(form)
     
@@ -157,6 +165,11 @@ class UserAppointmentEdit(LoginRequiredMixin, generic.UpdateView):
                 break
         else: #show error if no proffessional has all those services
             form.add_error(None, "No professional offers all selected services.") #add_error allows you to specify what error to show
+            return self.form_invalid(form)
+        
+        selected_time = form.cleaned_data['time_and_date'] #get the date the user picked
+        if Event.objects.filter(pk = event.pk, start_time_and_date__lte = selected_time, end_time__gte=selected_time).exists()==False: #https://www.w3schools.com/django/ref_lookups_lte.php
+            form.add_error(None, "Appointment time must be within event start and end time.")
             return self.form_invalid(form)
 
         return super().form_valid(form)
