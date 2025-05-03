@@ -32,12 +32,13 @@ class Event(models.Model):
 
 class Reservation(models.Model):
     username = models.CharField(max_length=200)
-    time_and_date = models.DateTimeField(auto_now=True) 
+    time_and_date = models.DateTimeField()
 
     #each reservation belongs to an event, an event can have many reservations
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    professional = models.ForeignKey(ServiceProfessional, on_delete=models.CASCADE)
+    professional = models.ForeignKey(ServiceProfessional, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    services = models.ManyToManyField(Service)
 
     def __str__(self):
        return f"Reservation for {self.event} by {self.user}"
