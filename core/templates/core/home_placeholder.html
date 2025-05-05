@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {%block content%}
-<h1>This is a placeholder Home view</h1>
+<h1> ACC COSMETOLOGY </h1>
 
+<img src="{% static 'images/img1.jpg' %}" alt="image 1" style="width:30%;">
+<div class="text">image 1</div>
+
+
+<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+<a class="next" onclick="plusSlides(1)">&#10095;</a>
 
 
 {% endblock %}
+

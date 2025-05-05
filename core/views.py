@@ -51,6 +51,7 @@ class EventEdit(LoginRequiredMixin, generic.UpdateView):
     
     def get_success_url(self): #success url doesn't work when you want to pass the primary key
         return reverse_lazy('Cosmetology:event_detail', kwargs={'pk': self.object.pk})
+
     
 class UserAppointments(LoginRequiredMixin, generic.ListView):
     model = Reservation
