@@ -1,11 +1,13 @@
 from django.urls import path
-
+from django.contrib.auth.views import LogoutView
 from . import views
 
 app_name = "Cosmetology"
 urlpatterns = [
     path("", views.Home.as_view(), name="index"), #it is going to list events in the calendar
+    path('accounts/logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path("event_detail/<pk>", views.EventDetail.as_view(), name="event_detail"), #upon clicking event from calendar
+
 
     #admin only
     path("event_add", views.EventAdd.as_view(), name="event_add"), 

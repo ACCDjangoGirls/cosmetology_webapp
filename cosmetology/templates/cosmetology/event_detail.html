@@ -1,0 +1,24 @@
+{% extends "cosmetology/base.html" %}
+{% block title %}Events | ACC Cosmetology{% endblock %}
+
+{% block content %}
+<h2>Upcoming Events</h2>
+<ul>
+  {% for event in events %}
+    <li>
+      <strong>{{ event.name }}</strong><br>
+      {{ event.start_time_and_date|date:"F j, Y" }} at {{ event.start_time_and_date|time:"g:i A" }} — {{ event.event_location }}<br>
+      {{ event.description }}<br>
+
+      {% if user.is_authenticated %}
+        <a href="{% url 'core:user_appointment_add' %}?event_id={{ event.id }}">Reserve Spot</a>
+      {% else %}
+        <a href="{% url 'login' %}?next={% url 'core:user_appointment_add' %}?event_id={{ event.id }}">Log in to reserve</a>
+      {% endif %}
+    </li>
+    <hr>
+  {% empty %}
+    <li>No upcoming events at this time.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

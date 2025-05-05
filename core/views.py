@@ -13,10 +13,17 @@ import random
 class Home(generic.ListView):
     model = Event
     template_name = "core/home_placeholder.html"
+    context_object_name = 'events'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['services'] = Service.objects.all()  # Add services manually
+        return context
 
 class EventDetail(generic.DetailView):
     model = Event
     template_name = "core/event_detail.html"
+    
 
 class EventAdd(LoginRequiredMixin, generic.CreateView):
     model = Event
@@ -50,7 +57,11 @@ class EventEdit(LoginRequiredMixin, generic.UpdateView):
         return super().dispatch(request, *args, **kwargs) #If the user is a superuser, this line calls the original dispatch() method from the parent class
     
     def get_success_url(self): #success url doesn't work when you want to pass the primary key
+
+        return reverse_lazy('Cosmetology:home_placeholder', kwargs={'pk': self.object.pk})
+
         return reverse_lazy('Cosmetology:event_detail', kwargs={'pk': self.object.pk})
+
 
     
 class UserAppointments(LoginRequiredMixin, generic.ListView):
