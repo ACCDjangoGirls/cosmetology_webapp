@@ -4,7 +4,8 @@ from django.views import generic, View
 from .models import Service, ServiceProfessional, Event, Reservation
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from .forms import EventForm, AppointmentForm
+from .forms import EventForm, UserAppointmentForm, AdminAppointmentForm
+from datetime import date
 import random
 
 # Create your views here.
@@ -56,7 +57,12 @@ class EventEdit(LoginRequiredMixin, generic.UpdateView):
         return super().dispatch(request, *args, **kwargs) #If the user is a superuser, this line calls the original dispatch() method from the parent class
     
     def get_success_url(self): #success url doesn't work when you want to pass the primary key
+
         return reverse_lazy('Cosmetology:home_placeholder', kwargs={'pk': self.object.pk})
+
+        return reverse_lazy('Cosmetology:event_detail', kwargs={'pk': self.object.pk})
+
+
     
 class UserAppointments(LoginRequiredMixin, generic.ListView):
     model = Reservation
@@ -85,7 +91,7 @@ class SelectEventUpdateView(LoginRequiredMixin, View): #seems inneficient but I 
     
 class UserAppointmentAdd(LoginRequiredMixin, generic.CreateView):
     model = Reservation
-    form_class = AppointmentForm
+    form_class = UserAppointmentForm
     template_name = "core/appointment_create.html"
     success_url = reverse_lazy('Cosmetology:user_appointments')
 
@@ -105,7 +111,8 @@ class UserAppointmentAdd(LoginRequiredMixin, generic.CreateView):
         event = get_object_or_404(Event, pk=event_id)
         form.instance.event = event #make the selection from the last page apply to the appointment
 
-        selected_services = form.cleaned_data['services'] #this is how u get the clean data in a form valid function 
+
+        selected_services = form.cleaned_data['services'] #this is how u get the clean data in a form valid function
 
         all_pros = list(ServiceProfessional.objects.all()) #query all proffessionals 
         random.shuffle(all_pros) #gives equal chance for each pro to get selected
@@ -123,12 +130,22 @@ class UserAppointmentAdd(LoginRequiredMixin, generic.CreateView):
             form.add_error(None, "No professional offers all selected services.") #add_error allows you to specify what error to show
             return self.form_invalid(form)
 
+        selected_time = form.cleaned_data['time_and_date'] #get the date the user picked
+        if Event.objects.filter(pk = event.pk, start_time_and_date__lte = selected_time, end_time__gte=selected_time).exists()==False: #https://www.w3schools.com/django/ref_lookups_lte.php
+            form.add_error(None, "Appointment time must be within event start and end time.")
+            return self.form_invalid(form)
+
+
         return super().form_valid(form)
     
 class UserAppointmentEdit(LoginRequiredMixin, generic.UpdateView):
     model = Reservation
-    form_class = AppointmentForm
+    #form_class = AppointmentForm
     template_name = "core/appointment_edit.html"
+    def get_form_class(self):
+        if self.request.user.is_superuser:
+            return AdminAppointmentForm
+        return UserAppointmentForm
 
     #filtering what services show up
     def get_form(self, form_class=None):
@@ -164,6 +181,11 @@ class UserAppointmentEdit(LoginRequiredMixin, generic.UpdateView):
                 break
         else: #show error if no proffessional has all those services
             form.add_error(None, "No professional offers all selected services.") #add_error allows you to specify what error to show
+            return self.form_invalid(form)
+        
+        selected_time = form.cleaned_data['time_and_date'] #get the date the user picked
+        if Event.objects.filter(pk = event.pk, start_time_and_date__lte = selected_time, end_time__gte=selected_time).exists()==False: #https://www.w3schools.com/django/ref_lookups_lte.php
+            form.add_error(None, "Appointment time must be within event start and end time.")
             return self.form_invalid(form)
 
         return super().form_valid(form)
@@ -201,7 +223,7 @@ class AdminUserAppointments(LoginRequiredMixin, generic.ListView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return Reservation.objects.all()
+        return Reservation.objects.all().order_by('time_and_date')
     
 class Services(generic.ListView): #we will show the details in the list since the model only has 2 fields.
     model = Service
@@ -240,3 +262,42 @@ class ServiceEdit(LoginRequiredMixin, generic.UpdateView):
     
     def get_success_url(self): #success url doesn't work when you want to pass the primary key
         return reverse_lazy('Cosmetology:services')
+
+class ServiceProviders(generic.ListView):
+    model = ServiceProfessional
+    template_name = "core/service_providers.html"
+
+class ServiceProviderAdd(LoginRequiredMixin, generic.CreateView):
+    model = ServiceProfessional
+    template_name = "core/service_provider_add.html"
+    success_url = reverse_lazy('Cosmetology:service_providers')  
+    fields = '__all__'
+
+    def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs) #If the user is a superuser, this line calls the original dispatch() method from the parent class
+
+class ServiceProviderDelete(LoginRequiredMixin, generic.DeleteView):
+    model = ServiceProfessional
+    template_name = "core/service_provider_delete.html"
+    success_url = reverse_lazy('Cosmetology:service_providers')  
+    
+    def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs) #If the user is a superuser, this line calls the original dispatch() method from the parent class
+
+
+class ServiceProviderUpdate(LoginRequiredMixin, generic.UpdateView):
+    model = ServiceProfessional
+    template_name = "core/service_provider_edit.html"
+    fields = '__all__'
+
+    def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
+        if not request.user.is_superuser:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs) #If the user is a superuser, this line calls the original dispatch() method from the parent class
+    
+    def get_success_url(self):
+        return reverse_lazy('Cosmetology:service_providers')

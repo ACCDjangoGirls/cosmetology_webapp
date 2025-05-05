@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {%block content%}
+
 <body>
     <nav>
         <!--<div><img src="css/Images/nobacklog.png" alt="Logo" style="width: 80%;"></div>-->
@@ -45,6 +47,13 @@
     <div class="{% if forloop.counter0|divisibleby:2 %}box1{% else %}box2{% endif %}">
         <h4 class="service-title"> {{ service.name|upper }} </h4>
         <div class="service-description">{{ service.service_description }}</div>
+<h1> ACC COSMETOLOGY </h1>
+
+<img src="{% static 'images/img1.jpg' %}" alt="image 1" style="width:30%;">
+<div class="text">image 1</div>
+
+<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+<a class="next" onclick="plusSlides(1)">&#10095;</a>
 
         {% if user.is_authenticated %}
         {% if user.is_staff %}
@@ -102,8 +111,6 @@
     <h3 style="color: white;">Contact Us</h3>
     <div class="section-divider2"></div>
 </section>
-
-
 
 {% endblock %}
 
