@@ -11,10 +11,19 @@ class EventForm(forms.ModelForm):
             'end_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
 
-class AppointmentForm(forms.ModelForm):
+class UserAppointmentForm(forms.ModelForm):
     class Meta:
         model = Reservation
         fields = ['services', 'time_and_date']
+        #widgets are needed for pretty date picking
+        widgets = {
+            'time_and_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+
+class AdminAppointmentForm(forms.ModelForm):
+    class Meta:
+        model = Reservation
+        fields = ['services', 'time_and_date','professional']
         #widgets are needed for pretty date picking
         widgets = {
             'time_and_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),

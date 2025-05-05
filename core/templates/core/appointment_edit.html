@@ -3,7 +3,11 @@
 
 
 {%block content%}
-<h1>Edit appointment</h1>
+{%if user.is_superuser%}
+<h1>Admin Edit Appointment</h1>
+{%else%}
+<h1>Edit Appointment</h1>
+{%endif%}
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}

@@ -21,8 +21,8 @@
           {{ j.name }}{% if not forloop.last %}, {% endif %} {%comment%}we can use forloop.last to not add a comma in the end{%endcomment%}
           {% endfor %} <br>
           {% if user.is_superuser %}
-          <a href="{% url 'Cosmetology:service_provider_edit' i.pk%}">Edit proffessional</a><br>
-          <a href="{% url 'Cosmetology:service_provider_delete' i.pk %}">Delete proffessional</a><br>
+          <a href="{% url 'Cosmetology:service_provider_edit' i.pk%}">Edit service provider</a><br>
+          <a href="{% url 'Cosmetology:service_provider_delete' i.pk %}">Delete service provider</a><br>
           {%endif%}
         </li>
       {% endfor %}
