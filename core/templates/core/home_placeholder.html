@@ -1,38 +1,21 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {%block content%}
 <h1> ACC COSMETOLOGY </h1>
 
-<!--<div class="slideshow-container">-->
+<img src="{% static 'images/img1.jpg' %}" alt="image 1" style="width:30%;">
+<div class="text">image 1</div>
 
-    <!--<div class="mySlides fade">
-    <div class="numbertext">1 / 3</div>-->
-    <img src="images/img1.jpg" alt="Image 1"style="width:70%;">
-    <div class="text">Caption One</div>
- <!-- </div>
+<img src="{% static 'images/img2.jpeg' %}" alt="image 2" style="width:30%;">
+<div class="text">image 2</div>
 
-  <div class="mySlides fade">
-      <div class="numbertext">2 / 3</div>-->
-    <img src="images/img2.jpg" alt="Image 2" style="width:70%">
-    <div class="text">Caption Two</div>
- <!-- </div>
+<img src="{% static 'images/img3.jpg' %}" alt="image 3" style="width:30%;">
+<div class="text">image 3</div>
 
-  <div class="mySlides fade">
-      <div class="numbertext">3 / 3</div>-->
-    <img src="images/img3.jpg" alt="Image 3" style="width:70%">
-    <div class="text">Caption Three</div>
-  </div>
-
-  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-  <a class="next" onclick="plusSlides(1)">&#10095;</a>
-</div>
-<br>
-
-<div style="text-align:center">
-  <span class="dot" onclick="currentSlide(1)"></span>
-  <span class="dot" onclick="currentSlide(2)"></span>
-  <span class="dot" onclick="currentSlide(3)"></span>
-</div>
+<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+<a class="next" onclick="plusSlides(1)">&#10095;</a>
 
 
 {% endblock %}
+
