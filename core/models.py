@@ -42,3 +42,26 @@ class Reservation(models.Model):
 
     def __str__(self):
        return f"Reservation for {self.event} by {self.user}"
+
+class Review(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    username = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
+    text = models.CharField(max_length=200)
+    time_and_date = models.DateTimeField(auto_now=True)
+
+    event = models.ForeignKey(Event, null=True, blank=True, on_delete=models.SET_NULL)
+    services = models.ManyToManyField(Service, blank=True)
+
+    #https://www.youtube.com/watch?v=kc47J3qoLU4 ignore, putting it here in case i need to come back to it
+    STAR_CHOICES = [
+        (1, '⭐'), #1 gets stored in the database, the star is what the user sees
+        (2, '⭐⭐'),
+        (3, '⭐⭐⭐'),
+        (4, '⭐⭐⭐⭐'),
+        (5, '⭐⭐⭐⭐⭐'),
+    ]
+
+    stars = models.IntegerField(choices=STAR_CHOICES)
+    def __str__(self):
+       return f"{self.title}"

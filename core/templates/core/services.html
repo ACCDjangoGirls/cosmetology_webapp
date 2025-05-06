@@ -1,19 +1,35 @@
-{% extends 'cosmetology/base.html' %}
+{% extends 'base.html' %}
 {% block title %}Services{% endblock %}
 {% block content %}
+
+<div>
+  <!--<div><img src="css/Images/nobacklog.png" alt="Logo" style="width: 80%;"></div>-->
+  {% if user.is_authenticated %}
+  <form method="post" action="{% url 'logout' %}?next={{ request.path }}" class="topleft">
+      {% csrf_token %}
+      <button type="submit" style="background:none; border:none; padding:0; text-decoration:underline;">
+          Logout
+      </button>
+  </form>
+  {% else %}
+      <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+  {% endif %}  
+</div>
+
+
 <h2>OUR SERVICES</h2>
 
-{% for service in services %}
+{% for service in service_list %}
 <section>
   <div class="service-title">{{ service.name|upper }}</div>
   <div class="service-description">{{ service.service_description }}</div>
 
   {% if user.is_authenticated %}
     {% if user.is_staff %}
-      <a href="{% url 'core:service_edit' service.id %}" class="button">Edit</a>
-      <a href="{% url 'core:service_delete' service.id %}" class="button">Delete</a>
+      <a href="{% url 'Cosmetology:service_edit' service.id %}" class="button">Edit</a>
+      <a href="{% url 'Cosmetology:service_delete' service.id %}" class="button">Delete</a>
     {% else %}
-      <a href="{% url 'core:service_add' service.id %}" class="button">Book</a>
+      <a href="{% url 'Cosmetology:service_add' service.id %}" class="button">Book</a>
     {% endif %}
   {% endif %}
 </section>
@@ -21,5 +37,5 @@
 <p>No services available at the moment.</p>
 {% endfor %}
 
-{% empty %}
+{%comment%} {% empty %} {%endcomment%}
 {% endblock %}
