@@ -2,11 +2,17 @@
 
 {%block content%}
 <div>
+  <!--<div><img src="css/Images/nobacklog.png" alt="Logo" style="width: 80%;"></div>-->
   {% if user.is_authenticated %}
-      <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+  <form method="post" action="{% url 'logout' %}?next={{ request.path }}" class="topleft">
+      {% csrf_token %}
+      <button type="submit" style="background:none; border:none; padding:0; text-decoration:underline;">
+          Logout
+      </button>
+  </form>
   {% else %}
       <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
-  {% endif %}
+  {% endif %}  
 </div>
 
 

@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views import generic, View
-from .models import Service, ServiceProfessional, Event, Reservation
+from .models import Service, ServiceProfessional, Event, Reservation, Review
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from .forms import EventForm, UserAppointmentForm, AdminAppointmentForm
+from .forms import EventForm, UserAppointmentForm, AdminAppointmentForm, ReviewForm
 from datetime import date
 import random
 
@@ -59,8 +59,6 @@ class EventEdit(LoginRequiredMixin, generic.UpdateView):
     def get_success_url(self): #success url doesn't work when you want to pass the primary key
 
         return reverse_lazy('Cosmetology:home_placeholder', kwargs={'pk': self.object.pk})
-
-        return reverse_lazy('Cosmetology:event_detail', kwargs={'pk': self.object.pk})
 
 
     
@@ -233,6 +231,7 @@ class ServiceAdd(LoginRequiredMixin, generic.CreateView):
     model = Service
     template_name = "core/service_add.html"
     success_url = reverse_lazy('Cosmetology:services')  
+    fields = '__all__'
 
     def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
         if not request.user.is_superuser:
@@ -301,3 +300,39 @@ class ServiceProviderUpdate(LoginRequiredMixin, generic.UpdateView):
     
     def get_success_url(self):
         return reverse_lazy('Cosmetology:service_providers')
+
+
+class Reviews(generic.ListView):
+    model = Review
+    template_name = "core/reviews.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['form'] = ReviewForm()
+
+        return context
+
+
+class ReviewAddView(LoginRequiredMixin, View):
+    def get(self,request):
+        return redirect(reverse('Cosmetology:reviews'))
+    
+    def post(self, request) :
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False) 
+            review.user = self.request.user
+            review.username = self.request.user.username
+            review.save() 
+        return redirect(reverse('Cosmetology:reviews'))
+
+
+class ReviewDeleteView(LoginRequiredMixin, View):
+    def get(self, request):
+        return redirect(reverse('Cosmetology:reviews'))
+
+    def post(self, request, pk):
+        review = get_object_or_404(Review, id=pk)
+        if review.user == request.user or request.user.is_superuser:
+            review.delete()
+        return redirect(reverse('Cosmetology:reviews'))
