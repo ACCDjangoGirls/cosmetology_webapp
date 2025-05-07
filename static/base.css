@@ -30,14 +30,13 @@ body, html {
   left: 3vw;
   font-size: 1.5vw;
 }
-
-
  
 /*ul, li {
   font-family: "Special Gothic Condensed One";
   font-weight: 300;
   font-size: 1.5vw;
 }*/
+
  .section-divider {
     width: 95%; /* Or however long you want the line */
     height: 0.2vw;
@@ -69,27 +68,7 @@ h3 {
     font-weight: 400;
     font-size: 5vw;
 }
-
-
-.service-title {
-    font-size: 2vw;
-    font-weight: bold;
-    letter-spacing: 0.2vw;
-}
-
-.service-description {
-    font-size: 1.1vw;
-    line-height: 1.7;
-    margin-top: 1vw;
-    color: black;
-}
-
-.price {
-    font-size: 1.5vw;
-    font-weight: bold;
-    color: white;
-    margin-top: 1vw;
-}
+ 
 
  a, a:visited {
     text-decoration: none;
@@ -151,19 +130,21 @@ h3 {
   align-items: center;
   margin-bottom: 2rem;
 }
+
 /* done button */  
 
+/* Service box styles */
 .box1, .box2 {
   border-radius: 2vw;
   width: 45%;
-  height: 18vw;
+  height: auto; /* Adjust height to fit content */
   margin: 2vw;
   box-shadow: 0.8vw 0.8vw;
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  width: 80%;
-  padding: 0.1vw 2vw 0.1vw 2vw;
+  flex-direction: column; /* Stack content vertically */
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 2vw;
 }
 
 .box1 {
@@ -178,8 +159,37 @@ h3 {
   box-shadow: 0.8vw 0.8vw black;
   background-color: white;
   color: black;
-  margin-left: auto;  /* pushes it to the right */
+  margin-left: auto; /* Pushes it to the right */
 }
+
+.service-title-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  margin-bottom: 1vw;
+}
+
+.service-title {
+  font-size: 2vw;
+  font-weight: bold;
+  letter-spacing: 0.2vw;
+}
+
+.service-description {
+  font-size: 1.8vw;
+  line-height: 2;
+  color: black;
+  margin-left: 2vw;
+}
+
+.price {
+  font-size: 1.5vw;
+  font-weight: bold;
+  color: white;
+  margin-left: 1vw;
+}
+/*done*/
 
 
 table {
