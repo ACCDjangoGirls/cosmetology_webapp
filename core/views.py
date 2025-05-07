@@ -186,24 +186,6 @@ class UserAppointmentEdit(LoginRequiredMixin, generic.UpdateView):
         event_id = self.kwargs.get('event_id') #you use self.kwargs.get to grab an id from a url
         event = get_object_or_404(Event, pk=event_id)
         form.instance.event = event #make the selection from the last page apply to the appointment
-
-
-        selected_services = form.cleaned_data['services'] #this is how u get the clean data in a form valid function 
-        all_pros = list(ServiceProfessional.objects.all()) #query all proffessionals 
-        random.shuffle(all_pros) #gives equal chance for each pro to get selected
-        for professional in all_pros: #get all the proffessionals
-            has_all_services = True #see whether they have that service
-            for service in selected_services: #check each service
-                if service not in professional.services.all(): #and see if it is in the proffessional's list of services
-                    has_all_services = False
-                    break #get out
-
-            if has_all_services == True: #if they do, assign them and stop the loop
-                form.instance.professional = professional
-                break
-        else: #show error if no proffessional has all those services
-            form.add_error(None, "No professional offers all selected services.") #add_error allows you to specify what error to show
-            return self.form_invalid(form)
         
         selected_time = form.cleaned_data['time_and_date'] #get the date the user picked
         if Event.objects.filter(pk = event.pk, start_time_and_date__lte = selected_time, end_time__gte=selected_time).exists()==False: #https://www.w3schools.com/django/ref_lookups_lte.php

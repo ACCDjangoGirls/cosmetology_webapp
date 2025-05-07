@@ -3,21 +3,13 @@
 
 
 {%block content%}
-
-
-<h1>Book an appointment for {{event.name}}</h1>
+<h1>Book appointment for {{event.name}}</h1>
 <p>Event details: </p>
 <p>{{event.description}}</p>
- <p>Start time: {{event.start_time_and_date}}</p>
- <p>End time: {{event.end_time}}</p>
- <p>Event at: {{event.event_location}}</p>
-
-  {% if user.is_superuser %}
-  <p><a href="{% url 'Cosmetology:event_edit' event.id %}">Edit this event</a></p>
-  <p><a href="{% url 'Cosmetology:event_delete' event.id %}">Delete this event</a></p>
-  <a href="{% url 'Cosmetology:event_add' %}">Create new event</a>
-  {% endif %}
-  <hr>
+<p>Start time: {{event.start_time_and_date}}</p>
+<p>End time: {{event.end_time}}</p>
+<p>Event at: {{event.event_location}}</p>
+<hr>
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
