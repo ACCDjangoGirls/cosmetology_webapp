@@ -1,3 +1,4 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
@@ -47,29 +48,34 @@
     <div class="{% if forloop.counter0|divisibleby:2 %}box1{% else %}box2{% endif %}">
         <h4 class="service-title"> {{ service.name|upper }} </h4>
         <div class="service-description">{{ service.service_description }}</div>
-<h1> ACC COSMETOLOGY </h1>
-
-<img src="{% static 'images/img1.jpg' %}" alt="image 1" style="width:30%;">
-<div class="text">image 1</div>
-
-<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-<a class="next" onclick="plusSlides(1)">&#10095;</a>
+        <div class="service-price">{{ service.price }}$</div>
 
         {% if user.is_authenticated %}
         {% if user.is_superuser %}
           <a href="{% url 'Cosmetology:service_edit' service.id %}" class="button-81">Edit</a>
           <a href="{% url 'Cosmetology:service_delete' service.id %}" class="button-81">Delete</a>
         {% else %}
-          <a href="{% url 'Cosmetology:service_add' %}" class="button-81">Create Service</a>
+          <!--do something here i forgot what to type-->
+          <a href="{% url 'Cosmetology:appoinment_create' service.id %}" class="button-81">Book</a>
         {% endif %}
+        {% else %}
+        <a href="{% url 'login' %}?next={{ request.path }}">Login</a><a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+        <a href="{% url 'Cosmetology:service_add' %}" class="button-81">Create Service</a>
+        {% endif %}
+        {% if user.is_superuser %}
         {% endif %}
         </div>
+        {% if user.is_superuser %}
+        <div class="center-container">
+            <a href="{% url 'Cosmetology:service_add' %}" class="button-81">Add A Service</a>
+        </div>
+        {% endif %}
 </section>
 {% empty %}
 <p>No services available at the moment.</p>
 {% endfor %}
 
-<section id="events"></section>
+<section id="events">
     <div class="section-divider"></div>
     <h1>EVENTS</h1>
     <table style="width: 90%; margin: 1vw auto;">
@@ -110,7 +116,12 @@
     <div class="section-divider2"></div>
     <h3 style="color: white;">Contact Us</h3>
     <div class="section-divider2"></div>
+    <h4 style="color: white; text-align: center; font-size: 2.5vw;">For more information, please contact:</h4>
+    <h4 style="color: white; text-align: center; font-size: 1.8vw;">Phone: 123-456-7890</h4>
+    <h4 style="color: white; text-align: center; font-size: 1.8vw;">Email: rosenia.peake@apsva.us </h4>
+    <h4 style="color: white; text-align: center; font-size: 1.8vw;">Address: 816 S. Walter Reed Drive, Arlington, VA 22204</h4>
+    <h4 style="color: white; text-align: center; font-size: 1.8vw;">Hours: 8:00 AM - 4:00 PM</h4>
+
 </section>
 
 {% endblock %}
-
