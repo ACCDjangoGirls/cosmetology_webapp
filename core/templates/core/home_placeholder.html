@@ -64,12 +64,6 @@
         {% endif %}
         {% if user.is_superuser %}
         {% endif %}
-        </div>
-        {% if user.is_superuser %}
-        <div class="center-container">
-            <a href="{% url 'Cosmetology:service_add' %}" class="button-81">Add A Service</a>
-        </div>
-        {% endif %}
 </section>
 {% empty %}
 <p>No services available at the moment.</p>
