@@ -99,6 +99,16 @@ class UserAppointmentAdd(LoginRequiredMixin, generic.CreateView):
         form.fields['services'].queryset = Service.objects.filter(event=self.kwargs['event_id'])
         return form
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        event_id = self.kwargs.get('event_id') #you use self.kwargs.get to grab an id from a url
+        event = get_object_or_404(Event, pk=event_id)
+        context['event'] = event
+
+        return context
+
+    
 
     def form_valid(self, form): #using form_valid to automatically assign a pro, kinda like how we did with owner.py
         user = self.request.user #get the user
@@ -144,6 +154,15 @@ class UserAppointmentEdit(LoginRequiredMixin, generic.UpdateView):
         if self.request.user.is_superuser:
             return AdminAppointmentForm
         return UserAppointmentForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        event_id = self.kwargs.get('event_id') #you use self.kwargs.get to grab an id from a url
+        event = get_object_or_404(Event, pk=event_id)
+        context['event'] = event
+
+        return context
 
     #filtering what services show up
     def get_form(self, form_class=None):

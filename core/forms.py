@@ -21,6 +21,9 @@ class UserAppointmentForm(forms.ModelForm):
             'time_and_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'services': forms.CheckboxSelectMultiple()
         }
+        labels = {
+            'services': 'Choose services:',
+        }
 
 class AdminAppointmentForm(forms.ModelForm):
     class Meta:
