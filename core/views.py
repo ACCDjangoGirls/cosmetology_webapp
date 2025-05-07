@@ -108,7 +108,12 @@ class UserAppointmentAdd(LoginRequiredMixin, generic.CreateView):
 
         return context
 
-    
+    def get_initial(self):
+        initial = super().get_initial()
+        event_id = self.kwargs.get('event_id')
+        event = get_object_or_404(Event, pk=event_id)
+        initial['time_and_date'] = event.start_time_and_date.date
+        return initial
 
     def form_valid(self, form): #using form_valid to automatically assign a pro, kinda like how we did with owner.py
         user = self.request.user #get the user
