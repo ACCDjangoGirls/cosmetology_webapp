@@ -59,7 +59,7 @@
           <a href="{% url 'Cosmetology:appoinment_create' service.id %}" class="button-81">Book</a>
         {% endif %}
         {% else %}
-            <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+        <a href="{% url 'login' %}?next={{ request.path }}">Login</a><a href="{% url 'login' %}?next={{ request.path }}">Login</a>
         {% endif %}
         {% if user.is_superuser %}
         {% endif %}
