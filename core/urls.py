@@ -39,5 +39,7 @@ urlpatterns = [
     path("service_provider_update/<pk>", views.ServiceProviderUpdate.as_view(), name="service_provider_edit"),
     path("service_provider_delete/<pk>", views.ServiceProviderDelete.as_view(), name="service_provider_delete"),
 
-    
+    path("reviews", views.Reviews.as_view(), name="reviews"),
+    path("review_add", views.ReviewAddView.as_view(), name="review_add"),
+    path("review_delete/<pk>", views.ReviewDeleteView.as_view(), name="review_delete"),
 ]

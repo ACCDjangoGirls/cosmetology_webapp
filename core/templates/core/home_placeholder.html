@@ -10,7 +10,7 @@
         <section>
             <h4 class="topleft">
                 {% if user.is_authenticated %}
-                <form method="post" action="{% url 'logout' %}">
+                <form method="post" action="{% url 'logout' %}?next={{ request.path }}">
                     {% csrf_token %}
                     <button type="submit" style="background:none; border:none; padding:0; text-decoration:underline;">
                         Logout
@@ -51,7 +51,7 @@
         <div class="service-price">{{ service.price }}$</div>
 
         {% if user.is_authenticated %}
-        {% if user.is_staff %}
+        {% if user.is_superuser %}
           <a href="{% url 'Cosmetology:service_edit' service.id %}" class="button-81">Edit</a>
           <a href="{% url 'Cosmetology:service_delete' service.id %}" class="button-81">Delete</a>
         {% else %}
@@ -60,6 +60,7 @@
         {% endif %}
         {% else %}
         <a href="{% url 'login' %}?next={{ request.path }}">Login</a><a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+        <a href="{% url 'Cosmetology:service_add' %}" class="button-81">Create Service</a>
         {% endif %}
         {% if user.is_superuser %}
         {% endif %}
