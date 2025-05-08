@@ -300,8 +300,6 @@ class ServiceProviderUpdate(LoginRequiredMixin, generic.UpdateView):
     
     def get_success_url(self):
         return reverse_lazy('Cosmetology:service_providers')
-
-
 class Reviews(generic.ListView):
     model = Review
     template_name = "core/reviews.html"
