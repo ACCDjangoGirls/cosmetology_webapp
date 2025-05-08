@@ -1,0 +1,24 @@
+{% extends 'cosmetology/base.html' %}
+{% block title %}Services{% endblock %}
+{% block content %}
+<h2>OUR SERVICES</h2>
+
+{% for service in services %}
+<section>
+  <div class="service-title">{{ service.name|upper }}</div>
+  <div class="service-description">{{ service.service_description }}</div>
+
+  {% if user.is_authenticated %}
+    {% if user.is_staff %}
+      <a href="{% url 'core:service_edit' service.id %}" class="button">Edit</a>
+      <a href="{% url 'core:service_delete' service.id %}" class="button">Delete</a>
+    {% else %}
+      <a href="{% url 'core:service_add' service.id %}" class="button">Book</a>
+    {% endif %}
+  {% endif %}
+</section>
+{% empty %}
+<p>No services available at the moment.</p>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: cosmetology_app
+    expose:
+      - "8000"
+    depends_on:
+      - db
+    links:
+      - "db:database"
+    environment:
+      DBNAME: cosmetology_app
+      DBUSER: cosmetology
+      DBPASS: testpasswordpleasechange
+      DBHOST: database
+
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: cosmetology_app
+      POSTGRES_USER: cosmetology
+      POSTGRES_PASSWORD: testpasswordpleasechange
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      - web
+    links:
+      - "web:webapp"
+    volumes:
+      - "./nginx/nginx.conf:/etc/nginx/nginx.conf:ro"
+
+volumes:
+  postgres_data:
+

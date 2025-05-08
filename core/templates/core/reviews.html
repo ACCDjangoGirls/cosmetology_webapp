@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Services{% endblock %}
+{% block content %}
+
+<div>
+  <!--<div><img src="css/Images/nobacklog.png" alt="Logo" style="width: 80%;"></div>-->
+  {% if user.is_authenticated %}
+  <form method="post" action="{% url 'logout' %}?next={{ request.path }}" class="topleft">
+      {% csrf_token %}
+      <button type="submit" style="background:none; border:none; padding:0; text-decoration:underline;">
+          Logout
+      </button>
+  </form>
+  {% else %}
+      <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+  {% endif %}  
+</div>
+
+
+<h2>Reviews for ACC's Cosmetology</h2>
+{% if user.is_authenticated %}
+<p>Write a review: </p>
+<form method="post" action="{% url 'Cosmetology:review_add'%}">
+    {% csrf_token %}
+    <div>
+      {{ form.as_p }}
+      <button type="submit"> Submit Review </button>
+    </div>
+</form>
+{%endif%}
+
+{% if review_list %}
+  <ul>
+    {% for review in review_list %}
+      <li>
+        <strong>{{ review.title }}</strong><br>
+        {{ review.get_stars_display }}<br>
+        {{ review.text }} <br>
+        by {{ review.user.username }} |
+        {{ review.time_and_date }}
+        {% if user == review.user or user.is_superuser %}
+        <form method="post" action="{% url 'Cosmetology:review_delete' review.id %}" style="display: inline;">
+          {% csrf_token %}
+          <button type="submit" class="clear_button">Delete</button>
+        </form>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No reviews yet</p>
+{% endif %}
+
+{% endblock %}

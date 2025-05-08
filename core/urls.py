@@ -1,11 +1,13 @@
 from django.urls import path
-
+from django.contrib.auth.views import LogoutView
 from . import views
 
 app_name = "Cosmetology"
 urlpatterns = [
     path("", views.Home.as_view(), name="index"), #it is going to list events in the calendar
+    path('accounts/logout/', LogoutView.as_view(next_page='/'), name='logout'),
     path("event_detail/<pk>", views.EventDetail.as_view(), name="event_detail"), #upon clicking event from calendar
+
 
     #admin only
     path("event_add", views.EventAdd.as_view(), name="event_add"), 
@@ -37,5 +39,7 @@ urlpatterns = [
     path("service_provider_update/<pk>", views.ServiceProviderUpdate.as_view(), name="service_provider_edit"),
     path("service_provider_delete/<pk>", views.ServiceProviderDelete.as_view(), name="service_provider_delete"),
 
-    
+    path("reviews", views.Reviews.as_view(), name="reviews"),
+    path("review_add", views.ReviewAddView.as_view(), name="review_add"),
+    path("review_delete/<pk>", views.ReviewDeleteView.as_view(), name="review_delete"),
 ]
