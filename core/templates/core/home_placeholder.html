@@ -54,9 +54,6 @@
         {% if user.is_superuser %}
           <a href="{% url 'Cosmetology:service_edit' service.id %}" class="button-81">Edit</a>
           <a href="{% url 'Cosmetology:service_delete' service.id %}" class="button-81">Delete</a>
-        {% else %}
-          <!--do something here i forgot what to type-->
-          <a href="{% url 'Cosmetology:appoinment_create' service.id %}" class="button-81">Book</a>
         {% endif %}
         {% else %}
         <a href="{% url 'login' %}?next={{ request.path }}">Login</a><a href="{% url 'login' %}?next={{ request.path }}">Login</a>

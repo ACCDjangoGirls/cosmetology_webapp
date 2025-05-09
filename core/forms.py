@@ -15,17 +15,20 @@ class EventForm(forms.ModelForm):
 class UserAppointmentForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = ['services', 'time_and_date']
+        fields = ['services', 'time_and_date', 'email']
         #widgets are needed for pretty date picking
         widgets = {
             'time_and_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'services': forms.CheckboxSelectMultiple()
         }
+        labels = {
+            'services': 'Choose services:',
+        }
 
 class AdminAppointmentForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = ['services', 'time_and_date','professional']
+        fields = ['services', 'time_and_date','email','professional']
         #widgets are needed for pretty date picking
         widgets = {
             'time_and_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),

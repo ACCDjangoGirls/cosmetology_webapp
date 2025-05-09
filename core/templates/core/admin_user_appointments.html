@@ -18,13 +18,14 @@
   </div>
 
 
-<h1>All Appointments</h1>
+<h1>(Admin) All Appointments</h1>
 
 <table class="table">
     <thead>
         <tr>
 
             <th>User</th>
+            <th>Email</th>
             <th>Event</th>
             <th>Time</th>
             <th>Services</th>
@@ -37,13 +38,14 @@
     <tbody>
     {% for appointment in object_list %}
         <tr>
-            <td>{{ appointment.user.username }} | </td> 
-            <td>{{ appointment.event.name }} | </td> 
-            <td>{{ appointment.time_and_date }} | </td> 
+            <td>{{ appointment.user.username }} </td>
+            <td>{{ appointment.email }} </td>  
+            <td>{{ appointment.event.name }} </td> 
+            <td>{{ appointment.time_and_date }} </td> 
             <td>
                 {% for service in appointment.services.all %}
                     {{ service.name }}{% if not forloop.last %}, {% endif %} {%comment%}we can use forloop.last to not add a comma in the end{%endcomment%}
-                {% endfor %} | 
+                {% endfor %} 
             </td>
             <td>{{ appointment.professional.name }} </td>
             <td>
