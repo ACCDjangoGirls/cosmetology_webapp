@@ -24,6 +24,30 @@ body, html {
   color: #D0312D;
 }
 
+/*Animation*/
+.typewriter h2{
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: .15em solid rgb(255, 255, 255); /* The typwriter cursor */
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .15em; /* Adjust as needed */
+  animation: 
+    typing 3.5s steps(30, end),
+    blink-caret .5s step-end infinite;
+}
+
+  /* The typing effect */
+  @keyframes typing {
+    from { width: 0% }
+    to { width: 100% }
+  }
+  
+  /* The typewriter cursor effect */
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #ffffff }
+  }
+
 .topleft {
   position: absolute;
   top: 0.6vw;
@@ -158,36 +182,37 @@ h3 {
   border: 0.1vw solid black;
   box-shadow: 0.8vw 0.8vw black;
   background-color: white;
-  color: black;
+  color: #D0312D;
   margin-left: auto; /* Pushes it to the right */
 }
 
 .service-title-container {
   display: flex;
-  justify-content: space-between;
   width: 100%;
   align-items: center;
   margin-bottom: 1vw;
 }
 
 .service-title {
-  font-size: 2vw;
+  font-size: 2.2vw;
   font-weight: bold;
-  letter-spacing: 0.2vw;
+  letter-spacing: 0.4vw;
+  margin: 1vw;
 }
 
 .service-description {
-  font-size: 1.8vw;
-  line-height: 2;
+  font-size: 1.6vw;
+  line-height: 1;
   color: black;
-  margin-left: 2vw;
+  margin-left: 3vw;
+  margin: 1vw;
 }
 
 .price {
-  font-size: 1.5vw;
+  font-size: 1.8vw;
   font-weight: bold;
-  color: white;
-  margin-left: 1vw;
+  margin-left: 3vw;
+  margin: 1vw;
 }
 /*done*/
 
