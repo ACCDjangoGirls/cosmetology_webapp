@@ -6,9 +6,7 @@
 
 <body>
     <nav>
-        <!--<div><img src="css/Images/nobacklog.png" alt="Logo" style="width: 80%;"></div>-->
-        <section>
-            <h4 class="topleft">
+            <div class="topleft">
                 {% if user.is_authenticated %}
                 <form method="post" action="{% url 'logout' %}?next={{ request.path }}">
                     {% csrf_token %}
@@ -17,10 +15,10 @@
                     </button>
                 </form>
                 {% else %}
-                    <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+                    <h4><a href="{% url 'login' %}?next={{ request.path }}">Login</a></h4>
                 {% endif %}  
-            </h4>
-            <h2 style="font-size: 4vw; margin-bottom: 0vw;">ACC COSMETOLOGY</h2>
+            </div>
+            <section class="typewriter" style="font-size: 4vw; margin-bottom: 0vw;"><h2>ACC COSMETOLOGY</h2></section>
             <ul style="margin-top: 1vw; margin-bottom: 1vw; color: #D0312D;">
             <li style="display: inline-block; padding-right: 3vw;">
                 {% if user.is_superuser %}
@@ -34,7 +32,6 @@
             <li style="display: inline-block; padding-right: 3vw;"><a href="#events">Events</a></li>
             <li style="display: inline-block; padding-right: 3vw;"><a href="#contact">Contact Us</a></li>
             </ul>
-        </section>
     </nav>
 <section id="homepage" style="padding-top: 13vw;">
     <div class="section-divider"></div>
@@ -42,35 +39,40 @@
 </section>
 
 <section id="services">
-    <div class="section-divider"></div>
+<div class="section-divider"></div>
+<div>
     <h1>OUR SERVICES</h1>
     {% for service in services %}
     <div class="{% if forloop.counter0|divisibleby:2 %}box1{% else %}box2{% endif %}">
+        <div class="service-title-container">
         <h4 class="service-title"> {{ service.name|upper }} </h4>
-        <div class="service-description">{{ service.service_description }}</div>
-        <div class="service-price">{{ service.price }}$</div>
+    {% if user.is_superuser %}
+        <a href="{% url 'Cosmetology:service_edit' service.id %} " style="display: inline-block; padding-left: 1vw; font-size: 1.4vw;">Edit</a>
+        <a href="{% url 'Cosmetology:service_delete' service.id %}" style="display: inline-block;  padding-left: 1vw; font-size: 1.4vw;">Delete</a>
+    {% endif %}
+        </div>
+        <div>
+        <p class="service-description">{{ service.service_description }}</p>
+        <p class="price">{{ service.price }}$</p>
 
         {% if user.is_authenticated %}
-        {% if user.is_superuser %}
-          <a href="{% url 'Cosmetology:service_edit' service.id %}" class="button-81">Edit</a>
-          <a href="{% url 'Cosmetology:service_delete' service.id %}" class="button-81">Delete</a>
-        {% endif %}
+        <!--do something here i forgot what to type-->
+        <a href="{% url 'Cosmetology:user_appointment_add' service.id %}" class="button-81">Book</a>
         {% else %}
-        <a href="{% url 'login' %}?next={{ request.path }}">Login</a><a href="{% url 'login' %}?next={{ request.path }}">Login</a>
-        <a href="{% url 'Cosmetology:service_add' %}" class="button-81">Create Service</a>
-        {% endif %}
-        {% if user.is_superuser %}
+        <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
         {% endif %}
         </div>
-        {% if user.is_superuser %}
-        <div class="center-container">
-            <a href="{% url 'Cosmetology:service_add' %}" class="button-81">Add A Service</a>
-        </div>
-        {% endif %}
+    </div>
 </section>
 {% empty %}
 <p>No services available at the moment.</p>
 {% endfor %}
+<div>
+    {% if user.is_superuser %}
+    <div class="center-container">  
+    <a href="{% url 'Cosmetology:service_add' %}" class="button-81">Add Service</a>
+    {% endif %}
+</div>
 
 <section id="events">
     <div class="section-divider"></div>
