@@ -7,6 +7,7 @@ from django.conf import settings
 class Service(models.Model):
     name = models.CharField(max_length=200)
     service_description = models.CharField(max_length=200)
+    price = models.IntegerField(null=True, blank=True)
     def __str__(self):
         return self.name
 
@@ -34,9 +35,11 @@ class Reservation(models.Model):
     username = models.CharField(max_length=200)
     time_and_date = models.DateTimeField()
 
+    email = models.EmailField(max_length=254)
+
     #each reservation belongs to an event, an event can have many reservations
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    professional = models.ForeignKey(ServiceProfessional, on_delete=models.CASCADE, null=True, blank=True)
+    professional = models.ForeignKey(ServiceProfessional, on_delete=models.CASCADE, null=True, blank=True) #just in case
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     services = models.ManyToManyField(Service)
 
