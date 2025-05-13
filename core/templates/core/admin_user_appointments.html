@@ -64,7 +64,7 @@
     {% for appointment in object_list %}
         <tr>
             <td>{{ appointment.user.username }} </td>
-            <td>{{ appointment.email }} </td>  
+            <td>{{ appointment.user.email }} </td>  
             <td>{{ appointment.event.name }} </td> 
             <td>{{ appointment.time_and_date }} </td> 
             <td>

@@ -28,7 +28,7 @@ class ServiceForm(forms.ModelForm):
 class UserAppointmentForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = ['services', 'time_and_date', 'email']
+        fields = ['services', 'time_and_date']
         #widgets are needed for pretty date picking
         widgets = {
             'time_and_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
@@ -41,7 +41,7 @@ class UserAppointmentForm(forms.ModelForm):
 class AdminAppointmentForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = ['services', 'time_and_date','email','professional']
+        fields = ['services', 'time_and_date','professional']
         #widgets are needed for pretty date picking
         widgets = {
             'time_and_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
