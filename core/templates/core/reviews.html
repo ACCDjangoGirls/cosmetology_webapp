@@ -14,42 +14,36 @@
      <a href="{% url 'account_login' %}?next={{ request.path }}">Login</a> |
      <a href="{% url 'account_signup' %}?next={{ request.path }}">Sign up</a>
   {% endif %}  
+  <a href="{% url 'Cosmetology:index' %}" style="position: absolute; top: 0.6vw; right: 3vw; font-size: 1.5vw;">Go Back</a>
 </div>
 
 
 <h2>Reviews for ACC's Cosmetology</h2>
 <div style="padding-left: 3vw;">
-{% if user.is_authenticated %}
-<p>Write a review: </p>
-<form method="post" action="{% url 'Cosmetology:review_add'%}">
-    {% csrf_token %}
-    <div>
-      {{ form.as_p }}
-      <button type="submit"> Submit Review </button>
-    </div>
-</form>
-{%endif%}
+  <div class="review-container">
+    {% if user.is_authenticated %}
+    <p class="write-review">Write a review:</p>
+    <form method="post" action="{% url 'Cosmetology:review_add' %}" class="review-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+    </form>
+    {% endif %}
 
-{% if review_list %}
-  <ul>
-    {% for review in review_list %}
-      <li>
-        <strong>{{ review.title }}</strong><br>
-        {{ review.get_stars_display }}<br>
-        {{ review.text }} <br>
-        by {{ review.user.username }} |
-        {{ review.time_and_date }}
-        {% if user == review.user or user.is_superuser %}
-        <form method="post" action="{% url 'Cosmetology:review_delete' review.id %}" style="display: inline;">
-          {% csrf_token %}
-          <button type="submit" class="clear_button">Delete</button>
-        </form>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>No reviews yet</p>
-{% endif %}
+    {% if review_list %}
+      <div class="review-grid">
+        {% for review in review_list %}
+        <div class="review-item">
+            <strong class="review-author">{{ review.name }}</strong><br>
+            <span class="review-rating">{{ review.get_stars_display }}</span><br>
+            <p class="review-text">{{ review.text }}</p>
+            <span class="review-meta">by {{ review.user.username }} | {{ review.time_and_date|date:"F j, Y" }}</span>
+        </div>
+        {% endfor %}
+    </ul>
+    </div>
+    {% else %}
+    <p class="no-reviews">No reviews yet</p>
+    {% endif %}
+</div>
 </div>
 {% endblock %}

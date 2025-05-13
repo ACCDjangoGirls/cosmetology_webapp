@@ -48,7 +48,7 @@ class Reservation(models.Model):
 class Review(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     username = models.CharField(max_length=200)
-    title = models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
     text = models.CharField(max_length=200)
     time_and_date = models.DateTimeField(auto_now=True)
 
