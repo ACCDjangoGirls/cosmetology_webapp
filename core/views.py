@@ -4,7 +4,7 @@ from django.views import generic, View
 from .models import Service, ServiceProfessional, Event, Reservation, Review
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from .forms import EventForm, UserAppointmentForm, AdminAppointmentForm, ReviewForm
+from .forms import EventForm, UserAppointmentForm, AdminAppointmentForm, ReviewForm, ServiceForm
 from datetime import date
 import random
 
@@ -238,7 +238,7 @@ class ServiceAdd(LoginRequiredMixin, generic.CreateView):
     model = Service
     template_name = "core/service_add.html"
     success_url = reverse_lazy('Cosmetology:services')  
-    fields = '__all__'
+    form_class = ServiceForm
 
     def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
         if not request.user.is_superuser:
@@ -260,6 +260,7 @@ class ServiceEdit(LoginRequiredMixin, generic.UpdateView):
     model = Service
     fields = '__all__'
     template_name = "core/service_edit.html"
+    form_class = ServiceForm
 
     def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
         if not request.user.is_superuser:
@@ -329,6 +330,7 @@ class ReviewAddView(LoginRequiredMixin, View):
             review.user = self.request.user
             review.username = self.request.user.username
             review.save() 
+            form.save_m2m() #apparently needed if you are saving a form with many to many relationships.
         return redirect(reverse('Cosmetology:reviews'))
 
 

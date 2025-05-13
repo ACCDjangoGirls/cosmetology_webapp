@@ -12,7 +12,6 @@ class Service(models.Model):
 
 class ServiceProfessional(models.Model):
     name = models.CharField(max_length=200)
-    class_period = models.CharField(max_length=200)
 
     services = models.ManyToManyField(Service)
     def __str__(self):

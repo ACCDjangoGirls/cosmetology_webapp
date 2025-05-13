@@ -9,7 +9,20 @@ class EventForm(forms.ModelForm):
         widgets = {
             'start_time_and_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'end_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'services': forms.CheckboxSelectMultiple()
+            'services': forms.CheckboxSelectMultiple(),
+            'description': forms.Textarea(attrs={'rows': 6, 'cols': 60})
+        }
+
+class ServiceForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = '__all__'
+        #widgets are needed for pretty date picking
+        widgets = {
+            'service_description': forms.Textarea(attrs={'rows': 6, 'cols': 60})
+        }
+        labels = {
+            'service_description': 'Description:',
         }
 
 class UserAppointmentForm(forms.ModelForm):
@@ -41,6 +54,7 @@ class ReviewForm(forms.ModelForm):
         fields = ['title', 'text', 'stars', 'event', 'services']
         widgets = {
             'services': forms.CheckboxSelectMultiple(),
+            'text': forms.Textarea(attrs={'rows': 6, 'cols': 60})
         }
         labels = {
             'event': 'Event (optional)',
