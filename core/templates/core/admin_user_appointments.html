@@ -3,6 +3,39 @@
 
 
 {% block content %}
+<body>
+    <nav>
+        <section>
+            <div class="topleft">
+                {% if user.is_authenticated %}
+                <form method="post" action="{% url 'logout' %}?next={{ request.path }}">
+                    {% csrf_token %}
+                    <button type="submit" style="background:none; border:none; padding:0; text-decoration:underline;">
+                        Logout
+                    </button>
+                </form>
+                {% else %}
+                    <h4><a href="{% url 'login' %}?next={{ request.path }}">Login</a></h4>
+                {% endif %}  
+            </div>
+            <h2 style="font-size: 4vw; margin-bottom: 0vw;">ACC COSMETOLOGY</h2>
+            <ul style="margin-top: 1vw; margin-bottom: 1vw; color: #D0312D;">
+            <li style="display: inline-block; padding-right: 3vw;">
+                {% if user.is_superuser %}
+                    <a href="{% url 'Cosmetology:admin_user_appointments' %}">Appointments</a>
+                {% else %}
+                    <a href="{% url 'Cosmetology:user_appointments' %}">Appointments</a>
+                {% endif %}
+            </li>
+            
+            <li style="display: inline-block; padding-right: 3vw;"><a href="{% url 'Cosmetology:index' %}">Services</a></li>
+            <li style="display: inline-block; padding-right: 3vw;"><a href="{% url 'Cosmetology:index' %}">Events</a></li>
+            <li style="display: inline-block; padding-right: 3vw;"><a href="{% url 'Cosmetology:index' %}">Contact Us</a></li>
+            </ul>
+        </section>
+      </nav>
+<div style="padding-top: 10.5vw;">
+<div class="section-divider"></div>
 <div>
     <!--<div><img src="css/Images/nobacklog.png" alt="Logo" style="width: 80%;"></div>-->
     {% if user.is_authenticated %}
@@ -60,5 +93,6 @@
     </tbody>
 
 </table>
+</body
 
 {% endblock %}

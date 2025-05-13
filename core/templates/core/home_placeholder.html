@@ -3,7 +3,29 @@
 {% load static %}
 
 {%block content%}
+<head>
+<script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
 
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function showSlides(n) {
+        let slides = document.getElementsByClassName("slide");
+
+        if (n > slides.length) { slideIndex = 1; }
+        if (n < 1) { slideIndex = slides.length; }
+
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+
+        slides[slideIndex - 1].style.display = "block";
+    }
+    </script>
+</head>
 <body>
     <nav>
             <div>
@@ -35,9 +57,23 @@
             <li style="display: inline-block; padding-right: 3vw;"><a href="#contact">Contact Us</a></li>
             </ul>
     </nav>
-<section id="homepage" style="padding-top: 13vw;">
+<section style="padding-top: 13vw;">
     <div class="section-divider"></div>
-    <h1>PLACEHOLDER</h1>
+    <h1>Welcome</h1>
+    <div class="slideshow-container">
+        <div class="slide fade">
+            <img src="{% static 'images/img1.jpg' %}" alt="Slide 1">
+        </div>
+        <div class="slide fade">
+            <img src="{% static 'images/img2.jpeg' %}" alt="Slide 2">
+        </div>
+        <div class="slide fade">
+            <img src="{% static 'images/img3.jpg' %}" alt="Slide 3">
+        </div>
+    
+        <button class="prev" onclick="plusSlides(-1)">❮</button>
+        <button class="next" onclick="plusSlides(1)">❯</button>
+    </div>
 </section>
 
 <section id="services">
@@ -55,7 +91,6 @@
         </div>
         <div>
         <p class="service-description">{{ service.service_description }}</p>
-        <p class="price">{{ service.price }}$</p>
 
         {% if user.is_authenticated %}
         <!--do something here i forgot what to type-->
@@ -65,7 +100,7 @@
     </div>
 </section>
 {% empty %}
-<p>No services available at the moment.</p>
+<p style="padding-left: 3vw; font-size: 1.5vw;">No services available at the moment.</p>
 {% endfor %}
 <div>
     {% if user.is_superuser %}
@@ -76,7 +111,7 @@
 
 <section id="events">
     <div class="section-divider"></div>
-    <h1>EVENTS</h1>
+        <h1>EVENTS</h1>
     <table style="width: 90%; margin: 1vw auto;">
     <thead>
         <tr>

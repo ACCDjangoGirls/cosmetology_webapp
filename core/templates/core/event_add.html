@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
-
-
 {%block content%}
+
+<body>
+<div style="padding-left: 3vw;">
 <h1>Event Creation (Admin)</h1>
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
         <input type="submit"/>
     </form>
+</body>
 {% endblock %} 
