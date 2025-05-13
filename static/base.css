@@ -222,7 +222,7 @@ table {
 }
   
   th, td {
-    border: 1px solid #D0312D;
+    border: 0.1vw solid #D0312D;
     padding: 1vw;
     text-align: left;
   }
@@ -231,3 +231,49 @@ table {
     background-color: #D0312D;
     color: #fff;
   }
+
+/* Slideshow */
+
+.slideshow-container {
+  position: relative;
+  width: 80%;
+  margin: auto;
+  text-align: center; /* Centers the images */
+}
+
+.slide {
+  display: none;
+  width: 100%;
+}
+
+
+.slide img {
+  width: 60%; /* Makes images scale with the container */
+  height: auto; /* Maintains aspect ratio */
+  max-width: 80vw; /* Prevents oversized images */
+  display: block;
+  margin: auto;
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 1em; /* Scales based on font size */
+  font-size: 2vw; /* Adjusts size dynamically based on viewport width */
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  z-index: 10;
+}
+
+.prev {
+  left: 2vw; /* Moves the previous button to the left */
+}
+
+.next {
+  right: 2vw; /* Moves the next button to the right */
+}
+
+/* slideshow */
