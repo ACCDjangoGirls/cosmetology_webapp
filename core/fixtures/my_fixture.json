@@ -1,0 +1,62 @@
+[
+    {
+        "model": "core.service",
+        "pk": 1,
+        "fields": {
+            "name": "Haircut",
+            "service_description": "Professional haircut and styling"
+        }
+    },
+    {
+        "model": "core.service",
+        "pk": 2,
+        "fields": {
+            "name": "Hair Coloring",
+            "service_description": "Custom hair coloring and treatment"
+        }
+    },
+    {
+        "model": "core.service",
+        "pk": 3,
+        "fields": {
+            "name": "Facial Treatment",
+            "service_description": "Deep cleansing facial for glowing skin"
+        }
+    },
+    {
+        "model": "core.service",
+        "pk": 4,
+        "fields": {
+            "name": "Manicure",
+            "service_description": "Complete nail care and polish"
+        }
+    },
+    {
+        "model": "core.service",
+        "pk": 5,
+        "fields": {
+            "name": "Pedicure",
+            "service_description": "Relaxing pedicure with exfoliation"
+        }
+    },
+    {
+        "model": "core.service",
+        "pk": 6,
+        "fields": {
+            "name": "Acrylic Nails",
+            "service_description": "Expert application of acrylic nail extensions"
+        }
+    },
+    {
+        "model": "core.event",
+        "pk": 1,
+        "fields": {
+            "name": "Cosmetology Showcase",
+            "description": "A day of beauty, featuring demonstrations and expert consultations.",
+            "start_time_and_date": "2025-06-15T10:00:00Z",
+            "event_location": "Cosmetology Center",
+            "end_time": "2025-06-15T17:00:00Z",
+            "services": [1, 2, 3, 4, 5, 6]
+        }
+    }
+]
