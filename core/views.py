@@ -231,6 +231,7 @@ class AdminUserAppointments(LoginRequiredMixin, generic.ListView):
     
 class Services(generic.ListView): #we will show the details in the list since the model only has 2 fields.
     model = Service
+    fields = '__all__'
     template_name = "core/services.html"
 
 class ServiceAdd(LoginRequiredMixin, generic.CreateView):
