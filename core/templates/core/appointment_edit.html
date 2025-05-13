@@ -6,15 +6,15 @@
 {%if user.is_superuser%}
 <h1>Admin Edit Appointment for {{event.name}}</h1>
 {%else%}
-
+<h1> Edit Appointment for {{event.name}}</h1>
+{%endif%}
 <h1>Edit appointment for {{event.name}}</h1>
-<p>Event details: </p>
-<p>{{event.description}}</p>
+<p>Event details: {{event.description}}</p>
 <p>Start time: {{event.start_time_and_date}}</p>
 <p>End time: {{event.end_time}}</p>
 <p>Event at: {{event.event_location}}</p>
 
-{%endif%}
+
 <hr>
     <form method="POST">
         {% csrf_token %}
