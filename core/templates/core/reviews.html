@@ -3,7 +3,6 @@
 {% block content %}
 
 <div>
-  <!--<div><img src="css/Images/nobacklog.png" alt="Logo" style="width: 80%;"></div>-->
   {% if user.is_authenticated %}
   <form method="post" action="{% url 'account_logout' %}?next={{ request.path }}" class="topleft">
       {% csrf_token %}
@@ -19,6 +18,7 @@
 
 
 <h2>Reviews for ACC's Cosmetology</h2>
+<div style="padding-left: 3vw;">
 {% if user.is_authenticated %}
 <p>Write a review: </p>
 <form method="post" action="{% url 'Cosmetology:review_add'%}">
@@ -51,5 +51,5 @@
 {% else %}
   <p>No reviews yet</p>
 {% endif %}
-
+</div>
 {% endblock %}

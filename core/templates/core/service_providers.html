@@ -17,6 +17,7 @@
 </div>
 
 <h2>Our Service Providers:</h2>
+<div style="padding-left: 3vw;">
 {% if serviceprofessional_list %}
     <ul>
       {% for i in serviceprofessional_list %}
@@ -41,5 +42,5 @@
 {% if user.is_superuser %}
 <a href="{% url 'Cosmetology:service_provider_add'%}">Create a service provider</a>
 {%endif%}
-
+</div>
 {% endblock %}

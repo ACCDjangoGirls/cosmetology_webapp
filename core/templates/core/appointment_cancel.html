@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div style="padding-left: 3vw;">
   <h1>Are you sure you want to cancel this appointment?</h1>
   <form method="post">
     {% csrf_token %}
     <input type="submit" value="Yes, cancel it">
     <a href="{% url 'Cosmetology:user_appointments' %}">No, go back</a>
   </form>
+  </div>
 {% endblock %}

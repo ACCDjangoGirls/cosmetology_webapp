@@ -4,7 +4,7 @@
 
 {%block content%}
 <h1>Select Event</h1>
-
+<div style="padding-left: 3vw;">
 <form method="post">
     {% csrf_token %}
 
@@ -16,5 +16,5 @@
     </select>
     <button type="submit">You're so close!</button>
 </form>
-
+</div>
 {% endblock %} 

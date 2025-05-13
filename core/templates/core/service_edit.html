@@ -4,9 +4,11 @@
 
 {%block content%}
 <h1>Service Edit (Admin)</h1>
+<div style="padding-left: 3vw;">
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
         <input type="submit"/>
     </form>
+    </div>
 {% endblock %} 
