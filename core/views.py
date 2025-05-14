@@ -16,12 +16,17 @@ from django.conf import settings
 def send_appointment_email(appointment):
     subject = "Your Appointment Confirmation"
 
+    service_names = []
+    for service in appointment.services.all():
+        service_names.append(service.name)
+    services_string = "Services: " + ", ".join(service_names)
+
     message = (
         f"Hello {appointment.user.username},\n\n"
         f"Your appointment has been confirmed with the following details:\n\n"
         f"Event: {appointment.event.name}\n"
         f"Date: {appointment.time_and_date}\n"
-        f"Services: {', '.join(service.name for service in appointment.services.all())}\n"
+        f"Services: {services_string}\n"
         f"Assigned Professional: {appointment.professional.name if appointment.professional else 'TBD'}\n\n"
         f"Thank you for choosing our services!\n"
         f"- Cosmetology Team"
