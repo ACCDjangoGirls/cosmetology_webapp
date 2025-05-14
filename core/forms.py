@@ -1,5 +1,5 @@
 from django import forms
-from .models import Event, Reservation, Review
+from .models import Event, Reservation, Review, Service
 
 class EventForm(forms.ModelForm):
     class Meta:
@@ -15,7 +15,7 @@ class EventForm(forms.ModelForm):
 
 class ServiceForm(forms.ModelForm):
     class Meta:
-        model = Event
+        model = Service
         fields = '__all__'
         #widgets are needed for pretty date picking
         widgets = {
