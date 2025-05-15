@@ -2,52 +2,44 @@
 
 {%block content%}
 <nav>
-      <section>
-          <div>
-              <!--<div><img src="css/Images/nobacklog.png" alt="Logo" style="width: 80%;"></div>-->
-              {% if user.is_authenticated %}
-              <form method="post" action="{% url 'account_logout' %}?next={{ request.path }}" class="topleft">
-                  {% csrf_token %}
-                  <button type="submit" style="background:none; border:none; padding:0; text-decoration:underline;">
-                      Logout
-                  </button>
-              </form>
-              {% else %}
-              <a href="{% url 'account_login' %}?next={{ request.path }}">Login</a> |
-              <a href="{% url 'account_signup' %}?next={{ request.path }}">Sign up</a>
-              {% endif %}  
-          </div>
-          <h2 style="font-size: 4vw; margin-bottom: 0vw;">ACC COSMETOLOGY</h2>
-          <ul style="margin-top: 1vw; margin-bottom: 1vw; color: #D0312D;">
-          <li style="display: inline-block; padding-right: 3vw;">
-              {% if user.is_superuser %}
-                  <a href="{% url 'Cosmetology:admin_user_appointments' %}">Appointments</a>
-              {% else %}
-                  <a href="{% url 'Cosmetology:user_appointments' %}">Appointments</a>
-              {% endif %}
-          </li>
-          
-          <li style="display: inline-block; padding-right: 3vw;"><a href="{% url 'Cosmetology:index' %}#services">Services</a></li>
-          <li style="display: inline-block; padding-right: 3vw;"><a href="{% url 'Cosmetology:index' %}#events">Events</a></li>
-          <li style="display: inline-block; padding-right: 3vw;"><a href="{% url 'Cosmetology:reviews' %}">Reviews</a></li>
-          <li style="display: inline-block; padding-right: 3vw;"><a href="{% url 'Cosmetology:service_providers' %}">Our Professionals</a></li>
-          <li style="display: inline-block; padding-right: 3vw;"><a href="{% url 'Cosmetology:index' %}#contact">Contact Us</a></li>
-          </ul>
-      </section>
-    </nav>
+  <!--<div><img src="css/Images/nobacklog.png" alt="Logo" style="width: 80%;"></div>-->
+  <section>
+      <div>
+        <!--<div><img src="css/Images/nobacklog.png" alt="Logo" style="width: 80%;"></div>-->
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'account_logout' %}?next={{ request.path }}" class="topleft">
+            {% csrf_token %}
+            <button type="submit" style="background:none; border:none; padding:0; text-decoration:underline;">
+                Logout
+            </button>
+        </form>
+        {% else %}
+          <a href="{% url 'account_login' %}?next={{ request.path }}">Login</a> |
+          <a href="{% url 'account_signup' %}?next={{ request.path }}">Sign up</a>
+        {% endif %}  
+      </div>
+      <h2 style="font-size: 4vw; margin-bottom: 0vw;">ACC COSMETOLOGY</h2>
+      <ul style="margin-top: 1vw; margin-bottom: 1vw; color: #D0312D;">
+      <li style="display: inline-block; padding-right: 3vw;"><a href="{% url 'Cosmetology:index' %}">Go Back</a></li>
+      </ul>
+  </section>
+</nav>
+<div style="padding-top: 13vw;">
+<div class="section-divider"></div>
 
 
 
  <h1>{{event.name}}</h1>
+ <div style="padding-left: 3vw;">
  <p>{{event.description}}</p>
  <p>Start time: {{event.start_time_and_date}}</p>
  <p>End time: {{event.end_time}}</p>
  <p>Event at: {{event.event_location}}</p>
- <p> Our available services are (have these link to the service detail later on): 
+ <p> Our available services are: 
     {% if event.services.all %}
       <ul>
         {% for service in event.services.all %}
-            <li>{{ service.name }}</li> {%comment%} have this link to the service detail later on {%endcomment%}
+            <li style="list-style: none;"> <a href="{% url 'Cosmetology:user_appointment_pick_event_create'%}">{{ service.name }}</a></li>
         {% endfor %}
       </ul>
     {% else %}
@@ -62,6 +54,6 @@
   {% endif %}
 
 
-
+</div>
 
 {% endblock %}

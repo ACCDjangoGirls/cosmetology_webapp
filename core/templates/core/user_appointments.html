@@ -39,31 +39,45 @@
 <div class="section-divider"></div>
 
 <h2>Your Appointments</h2>
-{% if reservation_list %}
-    <ul>
-      {% for i in reservation_list %}
-        <li>
-          <strong>Event:</strong> {{ i.event.name }}<br>
-          <strong>Time:</strong> {{ i.time_and_date }}<br>
-          <strong>Location:</strong> {{ i.event.event_location }}<br>
-          <strong>Professional:</strong> {{ i.professional.name }}<br>
-          <strong>Services:</strong><br>
-          <ul>
-            {% for service in i.services.all %}
-              <li>{{ service.name }}</li>
-            {% empty %}
-              <li>No services selected</li>
-            {% endfor %}
-          </ul>
-          <a href="{% url 'Cosmetology:user_appointment_pick_event_update' i.pk%}">Edit this appointment</a><br>
-          <a href="{% url 'Cosmetology:user_appointment_cancel' i.pk %}">Cancel</a><br>
-        </li>
-      {% endfor %}
-    </ul>
+<div style="padding-left: 3vw;">
+  {% if reservation_list %}
+  <table style="width: 90%; margin: 1vw auto;">
+      <thead>
+          <tr>
+              <th>Event</th>
+              <th>Time</th>
+              <th>Location</th>
+              <th>Professional</th>
+              <th>Services</th>
+              <th>Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for i in reservation_list %}
+          <tr>
+              <td>{{ i.event.name }}</td>
+              <td>{{ i.time_and_date }}</td>
+              <td>{{ i.event.event_location }}</td>
+              <td>{{ i.professional.name }}</td>
+              <td>
+                      {% for service in i.services.all %}
+                          <p>{{ service.name }}</p>
+                      {% empty %}
+                          <p>No services selected</p>
+                      {% endfor %}
+              </td>
+              <td>
+                  <a href="{% url 'Cosmetology:user_appointment_pick_event_update' i.pk%}">Edit</a> |
+                  <a href="{% url 'Cosmetology:user_appointment_cancel' i.pk %}">Cancel</a>
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
 {% else %}
-    <p>You have no appointments scheduled.</p>
+  <p>You have no appointments scheduled.</p>
 {% endif %}
 
 <a href="{% url 'Cosmetology:user_appointment_pick_event_create'%}">Book an appointment</a>
-
+</div>
 {% endblock %}

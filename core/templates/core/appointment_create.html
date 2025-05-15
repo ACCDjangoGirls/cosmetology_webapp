@@ -4,6 +4,7 @@
 
 {%block content%}
 <h1>Book appointment for {{event.name}}</h1>
+<div style="padding-left: 3vw;">
 <p>Event details: {{event.description}}</p>
 <p>Start time: {{event.start_time_and_date}}</p>
 <p>End time: {{event.end_time}}</p>
@@ -14,4 +15,5 @@
         {{form.as_p}}
         <input type="submit"/>
     </form>
+</div>
 {% endblock %} 

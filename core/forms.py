@@ -51,7 +51,7 @@ class AdminAppointmentForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ['title', 'text', 'stars', 'event', 'services']
+        fields = ['name', 'text', 'stars', 'event', 'services']
         widgets = {
             'services': forms.CheckboxSelectMultiple(),
             'text': forms.Textarea(attrs={'rows': 6, 'cols': 60})

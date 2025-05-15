@@ -29,7 +29,6 @@
 <body>
     <nav>
             <div>
-                <!--<div><img src="css/Images/nobacklog.png" alt="Logo" style="width: 80%;"></div>-->
                 {% if user.is_authenticated %}
                 <form method="post" action="{% url 'account_logout' %}?next={{ request.path }}" class="topleft">
                     {% csrf_token %}
@@ -57,26 +56,26 @@
             <li style="display: inline-block; padding-right: 3vw;"><a href="{% url 'Cosmetology:reviews' %}">Reviews</a></li>
             <li style="display: inline-block; padding-right: 3vw;"><a href="{% url 'Cosmetology:service_providers' %}">Our Professionals</a></li>
             <li style="display: inline-block; padding-right: 3vw;"><a href="#contact">Contact Us</a></li>
+            
             </ul>
     </nav>
-<section style="padding-top: 13vw;">
+<div style="padding-top: 10vw;">
     <div class="section-divider"></div>
-    <h1>Welcome</h1>
     <div class="slideshow-container">
-        <div class="slide fade">
-            <img src="{% static 'images/img1.jpg' %}" alt="Slide 1">
+        <div class="slide">
+            <img src="{% static 'images/im1.jpg' %}" alt="Slide 1">
         </div>
-        <div class="slide fade">
-            <img src="{% static 'images/img2.jpeg' %}" alt="Slide 2">
+        <div class="slide">
+            <img src="{% static 'images/im2.jpeg' %}" alt="Slide 2">
         </div>
-        <div class="slide fade">
+        <div class="slide">
             <img src="{% static 'images/img3.jpg' %}" alt="Slide 3">
         </div>
     
         <button class="prev" onclick="plusSlides(-1)">❮</button>
         <button class="next" onclick="plusSlides(1)">❯</button>
     </div>
-</section>
+</div>
 
 <section id="services">
 <div class="section-divider"></div>

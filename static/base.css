@@ -24,6 +24,10 @@ body, html {
   color: #D0312D;
 }
 
+p {
+  font-size: 1.5vw;
+}
+
 /*Animation*/
 .typewriter h2{
   overflow: hidden; /* Ensures the content is not revealed until the animation */
@@ -277,3 +281,42 @@ table {
 }
 
 /* slideshow */
+
+/* reviews */
+.review-container {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+  padding: 2vw;
+}
+
+.review-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.review-grid {
+  display: flex;
+  flex-wrap: wrap; /* Allows reviews to wrap into new rows */
+  justify-content: center; /* Centers items */
+  gap: 2vw; /* Spaces reviews evenly */
+}
+
+.review-item {
+  width: 30%; /* Each review takes 30% of the container */
+  padding: 1vw;
+  text-align: center;
+  background-color: white;
+  border: 0.1vw solid #D0312D;
+}
+
+
+.review-meta {
+  font-size: 1vw;
+  color: gray;
+}
+
+.no-reviews {
+  font-size: 1.5vw;
+  color: gray;
+}
