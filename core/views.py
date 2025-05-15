@@ -4,11 +4,42 @@ from django.views import generic, View
 from .models import Service, ServiceProfessional, Event, Reservation, Review
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from .forms import EventForm, UserAppointmentForm, AdminAppointmentForm, ReviewForm
+from .forms import EventForm, UserAppointmentForm, AdminAppointmentForm, ReviewForm, ServiceForm
 from datetime import date
 import random
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
+
+#https://docs.djangoproject.com/en/5.2/topics/email/
+def send_appointment_email(appointment):
+    subject = "Your Appointment Confirmation"
+
+    service_names = []
+    for service in appointment.services.all():
+        service_names.append(service.name)
+    services_string = "Services: " + ", ".join(service_names)
+
+    message = (
+        f"Hello {appointment.user.username},\n\n"
+        f"Your appointment has been confirmed with the following details:\n\n"
+        f"Event: {appointment.event.name}\n"
+        f"Date: {appointment.time_and_date}\n"
+        f"Services: {services_string}\n"
+        f"Assigned Professional: {appointment.professional.name if appointment.professional else 'TBD'}\n\n"
+        f"Thank you for choosing our services!\n"
+        f"- Cosmetology Team"
+    )
+
+    send_mail(
+        subject,
+        message,
+        settings.DEFAULT_FROM_EMAIL,
+        [appointment.user.email],
+        fail_silently=False,
+    )
+
 
 class Home(generic.ListView):
     model = Event
@@ -147,9 +178,11 @@ class UserAppointmentAdd(LoginRequiredMixin, generic.CreateView):
         if Event.objects.filter(pk = event.pk, start_time_and_date__lte = selected_time, end_time__gte=selected_time).exists()==False: #https://www.w3schools.com/django/ref_lookups_lte.php
             form.add_error(None, "Appointment time must be within event start and end time.")
             return self.form_invalid(form)
-
-
-        return super().form_valid(form)
+        
+        #!!! do this first instead of directly returning this line because it creates self.object and we need self.object to use the emailing function
+        response = super().form_valid(form)
+        send_appointment_email(self.object)
+        return response
     
 class UserAppointmentEdit(LoginRequiredMixin, generic.UpdateView):
     model = Reservation
@@ -238,7 +271,7 @@ class ServiceAdd(LoginRequiredMixin, generic.CreateView):
     model = Service
     template_name = "core/service_add.html"
     success_url = reverse_lazy('Cosmetology:services')  
-    fields = '__all__'
+    form_class = ServiceForm
 
     def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
         if not request.user.is_superuser:
@@ -260,6 +293,7 @@ class ServiceEdit(LoginRequiredMixin, generic.UpdateView):
     model = Service
     fields = '__all__'
     template_name = "core/service_edit.html"
+    form_class = ServiceForm
 
     def dispatch(self, request, *args, **kwargs): #I believe dispatch is used when you're handling logic BEFORE any other logic
         if not request.user.is_superuser:
@@ -329,6 +363,7 @@ class ReviewAddView(LoginRequiredMixin, View):
             review.user = self.request.user
             review.username = self.request.user.username
             review.save() 
+            form.save_m2m() #apparently needed if you are saving a form with many to many relationships.
         return redirect(reverse('Cosmetology:reviews'))
 
 

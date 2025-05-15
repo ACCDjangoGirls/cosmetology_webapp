@@ -35,6 +35,12 @@
         <div class="review-item">
             <strong class="review-author">{{ review.name }}</strong><br>
             <span class="review-rating">{{ review.get_stars_display }}</span><br>
+             {% if review.event %}
+        <p>Event: {{review.event}} <br></p>
+        {%endif%} 
+        {% for i in review.services.all %}
+          <p>{{ i.name }}{% if not forloop.last %}, {% endif %}</p>
+        {% endfor %}
             <p class="review-text">{{ review.text }}</p>
             <span class="review-meta">by {{ review.user.username }} | {{ review.time_and_date|date:"F j, Y" }}</span>
         </div>

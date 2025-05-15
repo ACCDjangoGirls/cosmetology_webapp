@@ -12,7 +12,6 @@ class Service(models.Model):
 
 class ServiceProfessional(models.Model):
     name = models.CharField(max_length=200)
-    class_period = models.CharField(max_length=200)
 
     services = models.ManyToManyField(Service)
     def __str__(self):
@@ -33,8 +32,6 @@ class Event(models.Model):
 class Reservation(models.Model):
     username = models.CharField(max_length=200)
     time_and_date = models.DateTimeField()
-
-    email = models.EmailField(max_length=254)
 
     #each reservation belongs to an event, an event can have many reservations
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
