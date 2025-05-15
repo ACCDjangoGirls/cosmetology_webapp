@@ -1,5 +1,5 @@
 from django import forms
-from .models import Event, Reservation, Review
+from .models import Event, Reservation, Review, Service
 
 class EventForm(forms.ModelForm):
     class Meta:
@@ -9,13 +9,26 @@ class EventForm(forms.ModelForm):
         widgets = {
             'start_time_and_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
             'end_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'services': forms.CheckboxSelectMultiple()
+            'services': forms.CheckboxSelectMultiple(),
+            'description': forms.Textarea(attrs={'rows': 6, 'cols': 60})
+        }
+
+class ServiceForm(forms.ModelForm):
+    class Meta:
+        model = Service
+        fields = '__all__'
+        #widgets are needed for pretty date picking
+        widgets = {
+            'service_description': forms.Textarea(attrs={'rows': 6, 'cols': 60})
+        }
+        labels = {
+            'service_description': 'Description:',
         }
 
 class UserAppointmentForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = ['services', 'time_and_date', 'email']
+        fields = ['services', 'time_and_date']
         #widgets are needed for pretty date picking
         widgets = {
             'time_and_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
@@ -28,7 +41,7 @@ class UserAppointmentForm(forms.ModelForm):
 class AdminAppointmentForm(forms.ModelForm):
     class Meta:
         model = Reservation
-        fields = ['services', 'time_and_date','email','professional']
+        fields = ['services', 'time_and_date','professional']
         #widgets are needed for pretty date picking
         widgets = {
             'time_and_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
@@ -41,6 +54,7 @@ class ReviewForm(forms.ModelForm):
         fields = ['title', 'text', 'stars', 'event', 'services']
         widgets = {
             'services': forms.CheckboxSelectMultiple(),
+            'text': forms.Textarea(attrs={'rows': 6, 'cols': 60})
         }
         labels = {
             'event': 'Event (optional)',

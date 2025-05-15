@@ -4,3 +4,6 @@ psycopg2==2.9.9
 django-allauth==65.7.0
 whitenoise==6.6.0
 django-environ
+requests
+cryptography
+PyJWT

@@ -20,6 +20,9 @@ USE_POSTGRES = os.environ.get('DJANGO_DB') == 'postgres'
 env = environ.Env(
        DEBUG=(bool,False)
         )
+
+environ.Env.read_env(os.path.join(BASE_DIR, '.env')) #i am using a .env. Using docker is not working out for me and I cannot upload the google app pass securely. I have sent it to Mr. Jones via email.
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -77,9 +80,25 @@ SITE_ID = 1
 #allauth stuff
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "optional" 
+ACCOUNT_EMAIL_VERIFICATION = "mandatory" 
 ACCOUNT_USERNAME_REQUIRED = True
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_CONFIRM_EMAIL_ON_GET = False
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = env("EMAIL_HOST_USER")
+
+LOGIN_REDIRECT_URL = '/' #if there is no "?next"
+#security measures for logins
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
+
+
+####
 
 ROOT_URLCONF = 'cosmetology.urls'
 
@@ -147,7 +166,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/New_York'
 
 USE_I18N = True
 
